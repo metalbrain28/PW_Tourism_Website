@@ -1,0 +1,1 @@
+{"virtualbox":{"/var/www/pw":{"guestpath":"/var/www/pw","hostpath":"F:/vms/randoms","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"F:/vms/randoms/automation","disabled":false,"__vagrantfile":true}}}

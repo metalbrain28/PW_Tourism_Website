@@ -1,0 +1,268 @@
+
+body {
+    color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 28px;
+    background: #282828;
+    margin: 0;
+}
+
+a {
+    color: #ffffff;
+}
+
+:focus {
+    outline: none;
+}
+
+section {
+    -webkit-transform: translateZ( 0 );
+    transform: translateZ( 0 );
+    -webkit-transition: -webkit-transform 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+a[ id= "tours" ]:target ~ #main panel {
+    -webkit-transform: translateY( 0px);
+    transform: translateY( 0px );
+}
+
+a[ id= "galeria" ]:target ~ #main article.panel {
+    -webkit-transform: translateY( -500px );
+    transform: translateY( -500px );
+}
+a[ id= "contacto" ]:target ~ #main article.panel {
+    -webkit-transform: translateY( -1000px );
+    transform: translateY( -1000px );
+}
+
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    background-color: rgba(0,0,0,.8);
+}
+
+.logo-image {
+    padding: 10px 0;
+    height: 60px
+}
+
+.navbar-toggler {
+    display: none;
+}
+
+li.nav-item .navbar-nav--child {
+    display: none;
+}
+
+li.nav-item:hover .navbar-nav--child {
+    display: block;
+    position: absolute;
+    padding-left: 15px;
+}
+
+li.nav-item--child {
+    display: grid;
+    white-space: nowrap;
+    background-color: rgba(76, 175, 80, 0.8);
+    top: 58px;
+}
+
+/* Menu */
+li.nav-item {
+    display: table-cell;
+    position: relative;
+}
+
+#navbarCollapse {
+    float: right;
+    margin-top: 15px;
+}
+
+.nav-link {
+    color: #fff;
+    padding: 7px 14px;
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: "Montserrat",sans-serif;
+    text-decoration: none;
+    transition: all 0.2s ease 0s;
+}
+
+.nav-link.active, .nav-link:hover, .nav-link:focus {
+    color: #8ac53f !important;
+}
+
+a.nav-link.btn-default {
+    padding: 10px 15px;
+}
+
+/* Home */
+#home {
+    position: relative;
+    height: 700px;
+    background-size: cover;
+    background: url("/images/header.jpg") center center;
+}
+
+.hero-text {
+    padding-top: 250px;
+}
+
+.hero-text h1 {
+    color: #ffffff;
+    font-size: 70px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.hero-text p {
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+.btn-default {
+    background: #4caf50 none repeat scroll 0 0;
+    border: 2px solid #4caf50;
+    color: #fff;
+    font-size: 12px;
+    padding: 15px 35px;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+}
+
+.btn-default:hover {
+    background: none repeat scroll 0 0;
+    border: 2px solid #fff;
+    color: #fff;
+    outline: 0;
+}
+
+/* Other sections - generals */
+.section-title h2 {
+    color: #f1f1f1;
+    font-size: 45px;
+    font-weight: 600;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.thumb {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    height: 350px;
+    margin: 15px;
+}
+
+.thumb__overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 1;
+    text-align: center;
+    transition: .3s;
+}
+
+.thumb__overlay:after {
+    content: '';
+    position: absolute;
+    top: 2%;
+    left: 3%;
+    right: 3%;
+    bottom: 3%;
+}
+
+.thumb__title {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    opacity: 1;
+    transform: translateY(-50%);
+}
+
+.thumb__title h3 {
+    font-size: 36px;
+    line-height: 48px;
+    margin: 15px auto;
+    position: relative;
+}
+
+.thumb__title h6 {
+    color: #8ac53f;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 15px auto;
+}
+
+.thumb > img {
+    width: 100%;
+}
+
+.thumb__title h3, .thumb__title p {
+    color: #fff;
+    font-weight: 700;
+}
+
+.thumb__title p + a {
+    margin-top: 15px;
+}
+
+.fadeInLeft {
+    animation-name: fadeInLeft;
+}
+
+.thumb__title h3:after, .thumb__title h3:before {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.2);
+    width: 301px;
+    height: 1px;
+    left: 50%;
+    -webkit-transform: translatex(-50%);
+    transform: translatex(-50%);
+}
+
+.thumb__title h3:before {
+    top: 0;
+}
+
+.thumb__title h3:after {
+    bottom: 0;
+}
+
+/* Tours */
+section#tours, section#services, section#gallery, section#contact
+{
+    padding-top: 60px;
+}
+
+
+/* Book trip modal */
+
+#booking_modal_container {
+    position: absolute;
+    top: 90px;
+    background-color: rgba(0, 0, 0, 0.8);
+    left: 50%;
+    transform: translateX(-50%);
+    height: 80%;
+    padding: 30px;
+    overflow-y: auto;
+    width: 90%;
+}
