@@ -1,4 +1,17 @@
 
+/*@font-face {*/
+    /*font-family: "FontAwesome";*/
+    /*font-weight: normal;*/
+    /*font-style : normal;*/
+    /*src : url("../node_modules/font-awesome/fonts/fontawesome-webfont.eot");*/
+    /*src : url("../node_modules/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0") format("embedded-opentype"),*/
+    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),*/
+    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.woff") format("woff"),*/
+    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.ttf") format("truetype"),*/
+    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.svg") format("svg");*/
+/*}*/
+
+
 body {
     color: #ffffff;
     font-family: 'Open Sans', sans-serif;
@@ -44,7 +57,7 @@ a[ id= "contacto" ]:target ~ #main article.panel {
 /* Navbar */
 .navbar {
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
     background-color: rgba(0,0,0,.8);
 }
@@ -123,6 +136,7 @@ a.nav-link.btn-default {
     font-size: 70px;
     font-weight: 700;
     text-transform: uppercase;
+    line-height: 1;
 }
 
 .hero-text p {
@@ -256,13 +270,123 @@ section#tours, section#services, section#gallery, section#contact
 /* Book trip modal */
 
 #booking_modal_container {
-    position: absolute;
+    position: fixed;
     top: 90px;
     background-color: rgba(0, 0, 0, 0.8);
     left: 50%;
     transform: translateX(-50%);
-    height: 80%;
+    height: calc(100% - 160px);
     padding: 30px;
     overflow-y: auto;
-    width: 90%;
+}
+
+#booking_modal_container .col-md-6 {
+    max-width: calc(50% - 30px);
+}
+
+button.close-modal {
+    position: absolute;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    margin-top: -10px;
+    cursor: pointer;
+    font-weight: 700;
+    z-index: 3;
+}
+
+button.close-modal:hover {
+    color: #4caf50;
+}
+
+.book-details-container,
+.book-media-container {
+    padding: 30px;
+}
+
+.video-container {
+    position: relative;
+}
+
+.book_now h4 {
+    border-bottom: 1px solid #eee;
+    font-weight: 400;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.trip-info h4 {
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.book-form-container .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #464a4c;
+    background: #fff none;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: .25rem;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+}
+
+.book_now input {
+    background: #fff none repeat scroll 0 0;
+    border-color: currentcolor currentcolor #eee;
+    border-style: none none solid;
+    border-width: 0 0 1px;
+    box-shadow: none;
+    color: #333;
+    height: 45px;
+    padding: 10px;
+}
+
+.backdrop {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 2;
+    display: none;
+}
+
+.backdrop.show {
+    display: block;
+}
+
+.modal {
+    z-index: 3;
+}
+
+.hidden {
+    display: none;
+}
+
+.trip-modal {
+    display: none;
+}
+
+.trip-modal.show {
+    display: block;
 }

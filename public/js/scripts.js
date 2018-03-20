@@ -40,6 +40,10 @@ $('a[href*="#"]')
 
 window.onload = function() {
 
+    var $loginModal = $("#login_register_modal");
+    var $loginForm = $("#login-form");
+    var $registerForm = $("#register-form");
+
     /* Open trip booking modal */
     $(".book-trip").on("click", function(e) {
 
@@ -47,6 +51,33 @@ window.onload = function() {
 
         var template = $("#booking_modal").html();
         $("#booking_modal_container").html(_.template(template)({tripID: tripID}));
+
+        $("#booking_modal_container").addClass("show");
+
+        $(".backdrop").addClass("show");
+
+        // var video = new Video();
+        // video.init();
     });
 
+    $("#login_button").on("click", function(e) {
+        e.preventDefault();
+        $loginModal.addClass("show");
+        $(".backdrop").addClass("show");
+    });
+
+    $("#login-form-link").click(function(e) {
+        $registerForm.hide();
+        $loginForm.show();
+    });
+
+    $("#register-form-link").click(function(e) {
+        $loginForm.hide();
+        $registerForm.show();
+    });
+
+    $(document).on("click", ".close-modal", function() {
+        $(this).closest(".modal").removeClass("show");
+        $(".backdrop").removeClass("show");
+    });
 };

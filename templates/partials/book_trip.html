@@ -1,46 +1,27 @@
 
 <script type="text/html" id='booking_modal'>
+    <button class="close-modal">x</button>
     <div class="row">
-        <div class="col-md-6">
-            <h3>Trip details</h3>
+        <div class="col col-md-7">
+            <div class="book-media-container">
+                <div class="video-container">
+                    <video controls id="video" class="trip-video" width="100%" height="auto">
+                        <source src="videos/tokyo.mp4" type="video/mp4" />
+                    </video>
+                </div>
+                <div class="trip-info">
+                    <h4>Trip details</h4>
 
-            <div class="video-container">
-                <video id="video" class="trip-video" width="100%" height="auto">
-                    <source src="videos/tokyo.mp4" type="video/mp4" />
-                </video>
-                <div id="video-controls">
-                    <button type="button" id="play-pause">Play</button>
-                    <input type="range" id="seek-bar" value="0">
-                    <button type="button" id="mute">Mute</button>
-                    <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
-                    <button type="button" id="full-screen">Full-Screen</button>
+                    <p>Trip with id <%= tripID %></p>
+                    <p>
+                        Bla bla bla bla bla bla nope I like potatoes hatters gonna hate bla bla bla.
+                    </p>
                 </div>
             </div>
-            <div class="trip-info">
-                <p>Trip with id <%= tripID %></p>
-                <pre>
-                    Bla bla bla bla bla bla nope I like potatoes hatters gonna hate bla bla bla.
-                </pre>
-            </div>
         </div>
-        <div class="col-md-6">
-            <h3>Book trip</h3>
-            <div class="book-trip-modal">
-                <form>
-                    <label>
-                        First Name
-                        <input type="text" class="first-name" />
-                    </label>
-                    <label>
-                        Last Name
-                        <input type="text" class="last-name" />
-                    </label>
-                    <label>
-                        Birthday
-                        <input type="text" class="birthday" />
-                    </label>
-                    <input type="submit" value="Book now!" />
-                </form>
+        <div class="col col-md-5">
+            <div class="book-details-container">
+
             </div>
         </div>
     </div>
