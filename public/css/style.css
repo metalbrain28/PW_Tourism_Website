@@ -1,17 +1,4 @@
 
-/*@font-face {*/
-    /*font-family: "FontAwesome";*/
-    /*font-weight: normal;*/
-    /*font-style : normal;*/
-    /*src : url("../node_modules/font-awesome/fonts/fontawesome-webfont.eot");*/
-    /*src : url("../node_modules/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.3.0") format("embedded-opentype"),*/
-    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.woff2") format("woff2"),*/
-    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.woff") format("woff"),*/
-    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.ttf") format("truetype"),*/
-    /*url("../node_modules/font-awesome/fonts/fontawesome-webfont.svg") format("svg");*/
-/*}*/
-
-
 body {
     color: #ffffff;
     font-family: 'Open Sans', sans-serif;
@@ -94,7 +81,7 @@ li.nav-item {
     position: relative;
 }
 
-#navbarCollapse {
+.navbar-collapse {
     float: right;
     margin-top: 15px;
 }
