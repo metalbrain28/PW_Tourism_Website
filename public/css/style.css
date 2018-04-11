@@ -377,3 +377,12 @@ button.close-modal:hover {
 .trip-modal.show {
     display: block;
 }
+
+/* Book trip modal */
+.book-details-container input {
+    margin-bottom: 1rem;
+}
+
+.mandatory:after {
+    content: '*';
+}

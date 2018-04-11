@@ -21,7 +21,36 @@
         </div>
         <div class="col col-md-5">
             <div class="book-details-container">
+                <h3>Book this trip</h3>
+                <form id="book_trip_form">
+                    <label class="form-group">
+                        <span class="mandatory">Name</span>
+                        <input id="bookName" class="form-control" name="name" type="text" required />
+                    </label>
+                    <label class="form-group">
+                        <span class="mandatory">Email</span>
+                        <input class="form-control" name="email" type="email" required />
+                    </label>
+                    <label class="form-group">
+                        <span class="mandatory">Phone</span>
+                        <input class="form-control" name="phone" type="number" required />
+                    </label>
+                    <label class="form-group">
+                        <span class="mandatory">Start date</span>
+                        <input class="form-control" name="date" type="text" required />
+                    </label>
+                    <label class="form-group">
+                        <span class="mandatory">Number of people</span>
+                        <input class="form-control" name="number" type="number" value="1" />
+                    </label>
 
+                    <input type="checkbox" id="agreeTerms" name="terms">
+                    <label for="agreeTerms" class="mandatory">I agree with the terms and conditions.</label>
+
+                    <div class="form-group">
+                        <input class="btn btn-default" type="submit" value="Book now!" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
