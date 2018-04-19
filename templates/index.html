@@ -15,7 +15,8 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                <li class="nav-item"><a id="login_button" class="nav-link btn-default">Login</a></li>
+
+                <?= isset($_SESSION['user']) ? '<li class="nav-item"><a id="logout_button" class="nav-link btn-default logout">Logout</a></li>' : '<li class="nav-item"><a id="login_button" class="nav-link btn-default login">Login</a></li>' ?>
             </ul>
         </div>
     </div>
@@ -28,7 +29,8 @@
         <div class="row">
             <div class="col col-md-12 text-center">
                 <div class="hero-text">
-                    <h1>Ahoy, awesome Potato!</h1>
+                    <button id="test" class="btn btn-default">TEST</button>
+                    <h1>Ahoy, <?= isset($_SESSION['user']) ? $_SESSION['user']['name'] : 'Stranger!' ?></h1>
                     <p>Discover the places you've never been before!</p>
                     <a href="#mostpopulartrips" class="btn btn-default">Find tour</a>
                 </div>
@@ -133,3 +135,16 @@
 
 <div id="booking_modal_container" class="container modal trip-modal"></div>
 
+<?php if(isset($_SESSION['user'])) { ?>
+    <div class="chat-container container">
+        <div class="chat-box">
+            <div class="chat-header <?= $_SESSION['user']['is_admin'] ? 'admin' : 'user' ?>">Chat</div>
+            <div id="conversation_container" class="chat-widget hidden">
+                <div id="conversation_content"></div>
+                <div class="input-container">
+                    <textarea class="message-input" placeholder="Ask us a question..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>

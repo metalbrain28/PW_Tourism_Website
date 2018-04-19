@@ -1,6 +1,6 @@
 "use strict";
 
-// Select all links with hashes
+/* Scrolling to sections with anchors */
 $('a[href*="#"]')
 // Remove links that don't actually link to anything
     .not('[href="#"]')
@@ -44,6 +44,15 @@ window.onload = function() {
     var $loginForm = $("#login-form");
     var $registerForm = $("#register-form");
 
+    var register = new Register();
+    register.initialize();
+
+    var login = new Login();
+    login.initialize();
+
+    var chat = new Chat();
+    chat.initialize();
+
     /* Open trip booking modal */
     $(".book-trip").on("click", function(e) {
 
@@ -66,6 +75,13 @@ window.onload = function() {
         $(".backdrop").addClass("show");
     });
 
+    $("#logout_button").on("click", function(e) {
+        $.post('/logout')
+            .done(function() {
+                window.location.reload();
+            });
+    });
+
     $("#login-form-link").click(function(e) {
         $registerForm.hide();
         $loginForm.show();
@@ -79,5 +95,28 @@ window.onload = function() {
     $(document).on("click", ".close-modal", function() {
         $(this).closest(".modal").removeClass("show");
         $(".backdrop").removeClass("show");
+    });
+
+    $(document).on("click", ".backdrop", function() {
+        $(".modal").removeClass("show");
+        $(".backdrop").removeClass("show");
+    });
+
+    $("#test").click(function() {
+        $.ajax({
+            method: "POST",
+            url: "/chat",
+            data: {
+                chat_data: JSON.stringify({
+                    message: "potato"
+                })
+            },
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
     });
 };

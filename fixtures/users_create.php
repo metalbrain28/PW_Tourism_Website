@@ -17,5 +17,7 @@ ORM::get_db()->exec(
     'last_name TEXT, ' .
     'email TEXT, ' .
     'phone TEXT, ' .
-    'password TEXT)'
+    'password TEXT, ' .
+    'is_admin INTEGER, ' .
+    'CONSTRAINT unique_email UNIQUE (email))'
 );

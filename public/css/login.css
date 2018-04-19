@@ -107,7 +107,7 @@
     text-align: left;
 }
 
-.panel-login input[type="text"],.panel-login input[type="email"],.panel-login input[type="password"] {
+.panel-login .form-control {
     height: 45px;
     border: 0;
     font-size: 16px;
@@ -120,14 +120,27 @@
     border-radius: 0px;
     padding: 6px 0px;
 }
-.panel-login input:hover,
-.panel-login input:focus {
+
+.panel-login .form-control.error {
+    border-bottom: 1px solid #b41111;
+}
+
+.success-log {
+    color: green;
+    padding: 30px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.panel-login .form-control:hover,
+.panel-login .form-control:focus {
     outline:none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
     border-color: #ccc;
 }
+
 .btn-login {
     background-color: #E8E9EC;
     outline: none;

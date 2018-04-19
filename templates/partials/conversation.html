@@ -1,0 +1,10 @@
+
+<script type="text/html" id='conversation_template'>
+    <div class="chat-messages-list">
+        <% _.each(messages, function(message){ %>
+            <div class="single-message <%= message.side %>">
+                <span><%= message.message %></span>
+            </div>
+        <% }); %>
+    </div>
+</script>
