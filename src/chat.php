@@ -7,6 +7,7 @@
  */
 
 session_start();
+date_default_timezone_set('Europe/Bucharest');
 
 require_once '../library/idiorm.php';
 ORM::configure('sqlite:../database.sqlite');
@@ -63,6 +64,7 @@ if ($isGetChat) {
 function userSendMessage($user) {
 
     $data = null;
+    $crtTime = date("Y-m-d H:i:s");
 
     if (isset($_POST["chat_data"])) {
         $data = json_decode($_POST["chat_data"]);
@@ -84,19 +86,23 @@ function userSendMessage($user) {
         $chat = ORM::for_table('chat')->create();
         $chat->user_id = $user['id'];
         $chat->unread = 1;
-        $chat->save();
+        $chat->timestamp = $crtTime;
     } else {
         $chat->unread = $chat->unread + 1;
-        $chat->save();
     }
 
     $newMessage = ORM::for_table('messages')->create();
     $newMessage->chat_id = $chat->id;
     $newMessage->message = $data->message;
     $newMessage->user_id = $user["id"];
+    $newMessage->timestamp = $crtTime;
 
     try {
         $newMessage->save();
+
+        /* Update last message time for chat */
+        $chat->last_message_time = $crtTime;
+        $chat->save();
 
         echo json_encode([
             'message'   =>  'Message sent.'
@@ -116,16 +122,17 @@ function getAllChats($user) {
 
     if ($user["is_admin"]) {
         $chats = ORM::for_table('chat')
-            ->raw_query('SELECT * from chat ' .
+            ->raw_query('SELECT chat.id, chat.unread, chat.last_message_time, users.first_name, users.last_name from chat ' .
                 'JOIN users ON users.id=user_id ' .
-                'WHERE responsible_id IS NULL OR responsible_id=:id ' .
+                'WHERE (last_message_time IS NOT NULL AND last_message_time != "") AND (responsible_id IS NULL OR responsible_id=:id) ' .
                 'ORDER BY unread DESC', ['id' => $user["id"]])->find_many();
 
         foreach ($chats as $chat) {
             $response[] = [
                 'id'        => $chat->id,
                 'name'      => $chat->first_name . ' ' . $chat->last_name,
-                'unread'    => $chat->unread
+                'unread'    => $chat->unread,
+                'timestamp' => $chat->last_message_time,
             ];
         }
     } else {
@@ -168,7 +175,7 @@ function getChatByID($user, $chatID) {
     if ($user["is_admin"]) {
         $response = [];
 
-        $chat = ORM::for_table('chat')->where('chat_id', $chatID)->find_one();
+        $chat = ORM::for_table('chat')->where('id', $chatID)->find_one();
         if ($chat) {
             $chat->set(['responsible_id' => $user['id']]);
             $chat->set(['unread' => 0]);
@@ -208,6 +215,7 @@ function getChatByID($user, $chatID) {
 
 function adminSendMessage($user, $chatID) {
     $data = null;
+    $crtTime = date("Y-m-d H:i:s");
 
     if (isset($_POST['message'])) {
         $data = json_decode($_POST['message']);
@@ -217,13 +225,20 @@ function adminSendMessage($user, $chatID) {
         return;
     }
 
-    $newMessage = ORM::for_table('chat')->create();
+    $newMessage = ORM::for_table('messages')->create();
     $newMessage->chat_id = $chatID;
     $newMessage->user_id = $user['id'];
     $newMessage->message = $data->text;
+    $newMessage->timestamp = $crtTime;
 
     try {
         $newMessage->save();
+
+        /* Update last message time for chat */
+        ORM::for_table('chat')->find_one($chatID)
+            ->set(['last_message_time' => $crtTime])
+            ->save();
+
     } catch (Exception $e) {
         http_response_code(500);
 

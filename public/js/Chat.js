@@ -4,14 +4,55 @@ function Chat () {}
 Chat.prototype = {
 
     messagesList: [],
+    chatsList: [],
+    activeChats: [],
 
     initialize: function () {
-        $(".chat-header.user").on("click", _.bind(this.toggleUserChat, this));
-        $(document).on("keydown", ".message-input", _.bind(this.sendMessage, this))
+        $(".toggle-chat.user").on("click", _.bind(this.toggleUserChat, this));
+        $(document).on("keydown", ".message-input", _.bind(this.sendMessage, this));
 
-        setInterval(_.bind(function refreshChat() {
-            this.getMessages();
-        }, this), 2000);
+        $(".all-chats").on("click", _.bind(this.toggleAllChats, this));
+        // $(".all-chats").on("click", ".single-chat", _.bind(this.openAdminChat, this));
+        // $(".all-chats").on("click", ".single-chat", function(e) {
+        //     console.log("potato")
+        // });
+
+        $(document).on("click", ".single-chat", _.bind(this.openAdminChat, this));
+
+        // setInterval(_.bind(function refreshChat() {
+        //     this.getMessages();
+        // }, this), 2000);
+    },
+
+    openAdminChat: function(e) {
+        var chatElem = $(e.target).closest(".single-chat");
+        var chatID = chatElem.data("chatid");
+        var chatName = chatElem.data("name");
+
+        var activeChatsIDs = _.pluck(this.activeChats, 'chatID');
+
+        /* Add the chat to the active chats list */
+        this.getMessagesForChat(chatID).then(_.bind(function(data) {
+            var messages = data.chat.reverse();
+
+            var chatIndex = activeChatsIDs.indexOf(chatID);
+            if (chatIndex === -1) {
+                this.activeChats.push({
+                    chatID: chatID,
+                    chatName: chatName,
+                    messages: messages
+                });
+            } else {
+                this.activeChats[chatIndex].messages = messages;
+            }
+
+            var template = $("#conversation_template").html();
+            $(".all-chats-container").prepend(_.template(template)({
+                chatID: chatID,
+                chatName: chatName,
+                messages: messages
+            }));
+        }, this));
     },
 
     toggleUserChat: function(e) {
@@ -24,6 +65,59 @@ Chat.prototype = {
         } else {
             $chatWidget.addClass("hidden");
         }
+    },
+
+    toggleAllChats: function(e) {
+        var $chatWidget = $(e.target).siblings('.chat-widget');
+
+        if ($chatWidget.hasClass("hidden")) {
+            this.getAllChats().then(function() {
+                $chatWidget.removeClass("hidden");
+            });
+        } else {
+            $chatWidget.addClass("hidden");
+        }
+    },
+
+    getAllChats: function() {
+        return $.ajax({
+            method: "GET",
+            url: "/chat",
+            dataType: "json",
+            success: _.bind(function(data) {
+
+                // console.log(data);
+
+                // if (this.messagesList.length) {
+                //     var lastRecvMessage = data.chats[data.chats.length - 1];
+                //     var lastCrtMessage = this.messagesList[this.messagesList.length - 1];
+                // }
+                //
+                // if (!this.messagesList.length || (lastRecvMessage.message !== lastCrtMessage.message && lastRecvMessage.side !== lastCrtMessage.side)) {
+                //     this.messagesList = _.map(data.chats, function(x) { return {"message": x.message, "side": x.side}; });
+                //     this.renderMessagesTemplate();
+                //
+                //     $(".toggle-chat").addClass("active");
+                // }
+
+
+                this.chatsList = _.map(data.chats, function(x) {
+                    return {
+                        "id": x.id,
+                        "name": x.name,
+                        "unread": x.unread,
+                        "time": x.timestamp
+                    }
+                });
+                this.renderChatsTemplate();
+
+                $(".toggle-chat.all-chats").addClass("active");
+
+            }, this),
+            error: function(err) {
+                console.log(err);
+            }
+        });
     },
 
     getMessages: function() {
@@ -41,9 +135,9 @@ Chat.prototype = {
 
                 if (!this.messagesList.length || (lastRecvMessage.message !== lastCrtMessage.message && lastRecvMessage.side !== lastCrtMessage.side)) {
                     this.messagesList = _.map(data.chats, function(x) { return {"message": x.message, "side": x.side}; });
-                    this.renderTemplate();
+                    this.renderMessagesTemplate();
 
-                    $(".chat-header").addClass("active");
+                    $(".toggle-chat").addClass("active");
                 }
             }, this),
             error: function(err) {
@@ -52,9 +146,27 @@ Chat.prototype = {
         });
     },
 
-    renderTemplate: function() {
+    getMessagesForChat: function(chatID) {
+        return $.ajax({
+            method: "GET",
+            url: "/chat/" + chatID,
+            dataType: "json",
+            success: _.bind(function(data) {
+            }, this),
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    },
+
+    renderMessagesTemplate: function() {
         var template = $("#conversation_template").html();
         $("#conversation_content").html(_.template(template)({messages: this.messagesList}));
+    },
+
+    renderChatsTemplate: function() {
+        var template = $("#chats_template").html();
+        $("#all_chats_content").html(_.template(template)({chats: this.chatsList}));
     },
 
     sendMessage: function(e) {
@@ -68,7 +180,7 @@ Chat.prototype = {
                 "side": "right"
             });
 
-            this.renderTemplate();
+            this.renderMessagesTemplate();
             $(e.target).val("");
 
             $.ajax({

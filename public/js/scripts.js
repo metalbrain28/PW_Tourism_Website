@@ -50,8 +50,10 @@ window.onload = function() {
     var login = new Login();
     login.initialize();
 
-    var chat = new Chat();
-    chat.initialize();
+    if (window.user) {
+        var chat = new Chat();
+        chat.initialize();
+    }
 
     /* Open trip booking modal */
     $(".book-trip").on("click", function(e) {

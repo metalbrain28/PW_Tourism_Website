@@ -18,6 +18,7 @@ ORM::get_db()->exec(
     'responsible_id INTEGER, ' .
     'unread INTEGER, ' .
     'timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, ' .
+    'last_message_time DATETIME, ' .
     'FOREIGN KEY(user_id) REFERENCES users(id), ' .
     'FOREIGN KEY(responsible_id) REFERENCES users(id))'
 );
