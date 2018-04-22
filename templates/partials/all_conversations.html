@@ -3,8 +3,8 @@
     <div class="chats-users-list">
         <% _.each(chats, function(chat){ %>
             <div class="single-chat" data-chatid="<%= chat.id %>" data-name="<%= chat.name %>">
-                <span class="single-chat-name"><%= chat.name %><% if(chat.unread) { %><span class="circle-label"><%= chat.unread %></span><% } %></span>
-                <span class="timestamp <% if(chat.unread) { %>active<% } %>" title='<%= moment(chat.time, "YYYY-MM-DD H:mm:s").tz("Europe/Bucharest").format("DD/MM/YYYY H:mm") %>'>
+                <span class="single-chat-name"><%= chat.name %><% if(chat.unread > 0) { %><span class="circle-label"><%= chat.unread %></span><% } %></span>
+                <span class="timestamp <% if(chat.unread > 0) { %>active<% } %>" title='<%= moment(chat.time, "YYYY-MM-DD H:mm:s").tz("Europe/Bucharest").format("DD/MM/YYYY H:mm") %>'>
                     <%= moment(chat.time, "YYYY-MM-DD H:i:s").fromNow() %>
                 </span>
             </div>

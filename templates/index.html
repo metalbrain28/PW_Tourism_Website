@@ -139,10 +139,10 @@
     <div class="all-chats-container chat-container container">
 
         <?php if(!$_SESSION['user']['is_admin']) { ?>
-            <div class="chat-box">
+            <div class="chat-box hidden">
                 <div class="toggle-chat chat-header <?= $_SESSION['user']['is_admin'] ? 'admin' : 'user' ?>">Chat</div>
                 <div id="conversation_container" class="chat-widget hidden">
-                    <div id="conversation_content"></div>
+                    <div id="conversation_content" class="conversation-content"></div>
                     <div class="input-container">
                         <textarea class="message-input" placeholder="Ask us a question..."></textarea>
                     </div>
@@ -151,7 +151,7 @@
         <?php } ?>
 
         <?php if($_SESSION['user']['is_admin']) { ?>
-            <div class="chat-box left-box">
+            <div class="chat-box left-box hidden">
                 <div class="toggle-chat chat-header all-chats">All chats</div>
                 <div id="chats_container" class="chat-widget hidden">
                     <div id="all_chats_content"></div>

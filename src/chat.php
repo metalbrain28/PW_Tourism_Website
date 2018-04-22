@@ -185,6 +185,7 @@ function getChatByID($user, $chatID) {
         $messages = ORM::for_table('chat')
             ->table_alias('c')
             ->select('m.message', 'message')
+            ->select('m.user_id', 'user_id')
             ->select('u.first_name', 'first_name')
             ->select('u.last_name', 'last_name')
             ->select('u.email', 'user_email')
@@ -199,7 +200,8 @@ function getChatByID($user, $chatID) {
             $response[] = [
                 'name'      => $message->first_name . $message->last_name,
                 'email'     => $message->user_email,
-                'message'   => $message->message
+                'message'   => $message->message,
+                'side'      => $message->user_id === $user['id'] ?  "right" : "left"
             ];
         }
 
@@ -214,6 +216,7 @@ function getChatByID($user, $chatID) {
 }
 
 function adminSendMessage($user, $chatID) {
+    header("Content-type", "application/json");
     $data = null;
     $crtTime = date("Y-m-d H:i:s");
 
@@ -239,6 +242,9 @@ function adminSendMessage($user, $chatID) {
             ->set(['last_message_time' => $crtTime])
             ->save();
 
+        echo json_encode([
+            'message'   =>  'Message sent.'
+        ]);
     } catch (Exception $e) {
         http_response_code(500);
 

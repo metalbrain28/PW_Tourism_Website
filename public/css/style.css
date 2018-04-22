@@ -399,6 +399,16 @@ button.close-modal:hover {
     cursor: pointer;
 }
 
+.toggle-chat i {
+    margin-top: 6px;
+    color: #eee;
+}
+
+.toggle-chat i:hover {
+    margin-top: 6px;
+    color: #d30000;
+}
+
 .toggle-chat:hover, .toggle-chat:active, .toggle-chat:focus {
     background-color: #4caf50;
 }
@@ -415,6 +425,13 @@ button.close-modal:hover {
     margin: 0 10px;
     display: table-cell;
     float: right;
+    width: 340px;
+    height: 440px;
+    bottom: 0
+}
+
+.chat-box.hidden {
+    bottom: -402px;
 }
 
 .chat-box > div {
@@ -446,7 +463,11 @@ button.close-modal:hover {
     font-size: 15px;
 }
 
-#conversation_content {
+.single-message.left {
+    margin-bottom: 10px;
+}
+
+.conversation-content {
     max-height: 320px;
     overflow-y: scroll;
     margin: 0 -20px;

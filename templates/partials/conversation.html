@@ -1,32 +1,25 @@
 
-<script type="text/html" id='conversation_template'>
-    <% if (window.user.is_admin) { %>
-
-        <div class="chat-box admin" data-chatid="<%= chatID %>">
-            <div class="toggle-chat chat-header <?= $_SESSION['user']['is_admin'] ? 'admin' : 'user' ?>"><%= chatName %></div>
-            <div id="conversation_container" class="chat-widget">
-                <div id="conversation_content">
-                    <div class="chat-messages-list">
-                        <% _.each(messages, function(message){ %>
-                            <div class="single-message <%= message.side %>">
-                                <span><%= message.message %></span>
-                            </div>
-                        <% }); %>
-                    </div>
-                </div>
-                <div class="input-container">
-                    <textarea class="message-input" placeholder="Press Enter for submit..."></textarea>
-                </div>
+<script type="text/html" id='full_conversation_template'>
+    <div id="chat_box_<%= chatID %>" class="chat-box admin" data-chatid="<%= chatID %>">
+        <div class="toggle-chat chat-header <?= $_SESSION['user']['is_admin'] ? 'admin' : 'user' ?>">
+            <%= chatName %>
+            <i class="fa fa-times pull-right close-chat"></i>
+        </div>
+        <div id="conversation_container_<%= chatID %>" class="chat-widget">
+            <div id="conversation_content_<%= chatID %>" class="conversation-content"></div>
+            <div class="input-container">
+                <textarea class="message-input" placeholder="Press Enter for submit..."></textarea>
             </div>
         </div>
+    </div>
+</script>
 
-    <% } else { %>
-        <div class="chat-messages-list">
-            <% _.each(messages, function(message){ %>
-                <div class="single-message <%= message.side %>">
-                    <span><%= message.message %></span>
-                </div>
-            <% }); %>
-        </div>
-    <% } %>
+<script type="text/html" id='conversation_template'>
+    <div class="chat-messages-list">
+        <% _.each(messages, function(message){ %>
+            <div class="single-message <%= message.side %>">
+                <span><%= message.message %></span>
+            </div>
+        <% }); %>
+    </div>
 </script>
