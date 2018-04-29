@@ -14,7 +14,7 @@ ORM::configure('sqlite:../database.sqlite');
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
 $isAllTrips = preg_match('/\/trips[\/]?$/', $request_uri[0]);
-$isSingleTrip = preg_match('/\/trips\/([\d]+)[\/]?$/', $request_uri[0], $matchedChatID);
+$isSingleTrip = preg_match('/\/trips\/([\d]+)[\/]?$/', $request_uri[0], $matchedTripID);
 
 if ($isAllTrips) {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -75,5 +75,23 @@ if ($isAllTrips) {
 }
 
 if ($isSingleTrip) {
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $data = ORM::for_table('trips')->find_one($matchedTripID[1]);
 
+        header('Content-Type: application/json');
+        echo json_encode([
+            "data" => [
+                "id"                => $data->id,
+                "title"             => $data->title,
+                "short_description" => $data->short_description,
+                "description"       => $data->description,
+                "price"             => $data->price,
+                "rating"            => $data->rating,
+                "start_date"        => $data->start_date,
+                "end_date"          => $data->end_date,
+                "poster"            => $data->poster
+            ]
+        ]);
+        return;
+    }
 }

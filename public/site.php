@@ -25,6 +25,11 @@ $bestOffers = ORM::for_table('trips')
     ->limit(4)
     ->find_many();
 
+$allTrips = ORM::for_table('trips')
+    ->where_gte('start_date', date("Y-m-d"))
+    ->order_by_asc('start_date')
+    ->find_many();
+
 include("../templates/site_start.html");
 include("../templates/index.html");
 include("../templates/partials/book_trip.html");

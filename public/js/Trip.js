@@ -1,25 +1,50 @@
 function Trip() {
-    this.tripWidgetTemplate = $("#trip_widget_template");
+    this.tripWidgetTemplate = $("#trip_widget_template").html();
+    this.showTripModalTemplate = $("#booking_modal_template").html();
+    this.tripModalContainer = $("#booking_modal_container");
 }
 
 Trip.prototype = {
     tripWidgetTemplate: null,
+    showTripModalTemplate: null,
+    tripModalContainer: null,
 
     initialize: function() {
         /* Register events */
         $("#add_trip").on("click", _.bind(this.openAddTripModal, this));
 
-        this.renderPopularTrips();
+        $(".book-trip").on("click", _.bind(this.openShowTripModal, this));
+        // $(".book-trip").on("click", function(e) {
+        //
+        //     var tripID = $(this).data("tripid");
+        //
+        //     var template = $("#booking_modal").html();
+        //     $("#booking_modal_container").html(_.template(template)({tripID: tripID}));
+        //
+        //     $("#booking_modal_container").addClass("show");
+        //     $(".backdrop").addClass("show");
+        //
+        //     // var video = new Video();
+        //     // video.init();
+        // });
     },
 
-    renderPopularTrips: function() {
-        var $popularsContainer = $("#populars_container");
+    openShowTripModal: function(e) {
+        var tripID = $(e.target).closest(".thumb").data("id");
 
-
-    },
-
-    renderBestOffers: function() {
-
+        return $.ajax({
+            method: "GET",
+            url: "/trips/" + tripID,
+            dataType: "json",
+            success: _.bind(function(data) {
+                this.tripModalContainer.html(_.template(this.showTripModalTemplate)(data));
+                this.tripModalContainer.addClass("show");
+                $(".backdrop").addClass("show");
+            }, this),
+            error: function(err) {
+                console.log(err);
+            }
+        });
     },
 
     renderNewTrip: function() {

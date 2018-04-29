@@ -10,7 +10,7 @@
                     <ul class="navbar-nav--child">
                         <li class="nav-item--child"><a class="nav-link" href="#mostpopulartrips">Most Popular</a></li>
                         <li class="nav-item--child"><a class="nav-link" href="#bestoffers">Best Offers</a></li>
-                        <li class="nav-item--child"><a class="nav-link" href="#gallery">Gallery</a></li>
+                        <li class="nav-item--child"><a class="nav-link" href="#all_trips">All Trips</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
@@ -29,7 +29,6 @@
         <div class="row">
             <div class="col col-md-12 text-center">
                 <div class="hero-text">
-                    <button id="test" class="btn btn-default">TEST</button>
                     <h1>Ahoy, <?= isset($_SESSION['user']) ? $_SESSION['user']['name'] : 'Stranger!' ?></h1>
                     <p>Discover the places you've never been before!</p>
                     <div class="main-buttons-container">
@@ -51,7 +50,7 @@
         </div>
         <div id="populars_container" class="row trips-widgets-container">
             <?php foreach($popularTrips as $trip) {?>
-                <div class="thumb">
+                <div class="thumb" data-id="<?= $trip->id ?>">
                     <img src="<?= $trip->poster ?>" alt="Trip poster">
                     <div class="thumb__overlay"></div>
                     <div class="thumb__title">
@@ -73,7 +72,7 @@
         </div>
         <div class="row trips-widgets-container">
             <?php foreach($bestOffers as $trip) {?>
-                <div class="thumb">
+                <div class="thumb" data-id="<?= $trip->id ?>">
                     <img src="<?= $trip->poster ?>" alt="Trip poster">
                     <div class="thumb__overlay"></div>
                     <div class="thumb__title">
@@ -88,7 +87,28 @@
     </div>
 </section>
 
-<section id="gallery"></section>
+<section id="all_trips">
+    <div class="container">
+        <div class="section-title">
+            <h2>All Trips</h2>
+        </div>
+        <div class="row trips-widgets-container">
+            <?php foreach($allTrips as $trip) {?>
+            <div class="thumb" data-id="<?= $trip->id ?>">
+                <img src="<?= $trip->poster ?>" alt="Trip poster">
+                <div class="thumb__overlay"></div>
+                <div class="thumb__title">
+                    <h3><?= $trip->title ?></h3>
+                    <h6><?= $trip->short_description ?></h6>
+                    <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
+                    <a class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
+
 <section id="services"></section>
 <section id="about"></section>
 <section id="contact"></section>

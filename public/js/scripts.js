@@ -59,20 +59,20 @@ window.onload = function() {
     }
 
     /* Open trip booking modal */
-    $(".book-trip").on("click", function(e) {
-
-        var tripID = $(this).data("tripid");
-
-        var template = $("#booking_modal").html();
-        $("#booking_modal_container").html(_.template(template)({tripID: tripID}));
-
-        $("#booking_modal_container").addClass("show");
-
-        $(".backdrop").addClass("show");
-
-        // var video = new Video();
-        // video.init();
-    });
+    // $(".book-trip").on("click", function(e) {
+    //
+    //     var tripID = $(this).data("tripid");
+    //
+    //     var template = $("#booking_modal").html();
+    //     $("#booking_modal_container").html(_.template(template)({tripID: tripID}));
+    //
+    //     $("#booking_modal_container").addClass("show");
+    //
+    //     $(".backdrop").addClass("show");
+    //
+    //     // var video = new Video();
+    //     // video.init();
+    // });
 
     $("#login_button").on("click", function(e) {
         e.preventDefault();
