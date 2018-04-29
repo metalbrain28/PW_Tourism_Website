@@ -1,0 +1,51 @@
+
+<script type="text/html" id='add_trip_template'>
+    <h2>Add a new trip</h2>
+
+    <button class="close-modal">x</button>
+    <form id="add_trip_form">
+        <div class="col col-md-6 col-sm-12">
+            <label class="form-group">
+                <span class="mandatory">Title</span>
+                <input class="form-control" name="title" type="text" required />
+            </label>
+            <label class="form-group">
+                <span class="mandatory">Short description</span>
+                <input class="form-control" name="short_description" type="text" required />
+            </label>
+            <label class="form-group">
+                <span class="mandatory">Description</span>
+                <textarea class="form-control" name="description" required></textarea>
+            </label>
+            <label class="form-group">
+                <span class="mandatory">Number of nights</span>
+                <input class="form-control" name="nights_no" type="text" required />
+            </label>
+            <label class="form-group">
+                <span class="mandatory">Price/person</span>
+                <div class="currency-input-container">
+                    <input class="form-control currency" name="price" type="number" step="0.01" required />
+                </div>
+            </label>
+        </div>
+        <div class="col col-md-6">
+            <label class="form-group">
+                <span class="mandatory">Period</span>
+                <input id="trip_date_range" class="form-control" name="date_range" required />
+            </label>
+            <label class="form-group">
+                <span class="mandatory">Poster</span>
+
+                <div class="upload-btn-wrapper">
+                    <input type="text" class="file" name="poster_url" disabled>
+                    <div class="file_upload">
+                        <input class="btn btn-upload" name="poster" type="file" accept="image/*" required />
+                    </div>
+                </div>
+            </label>
+            <div class="form-group upload-field">
+                <input class="btn btn-default" type="submit" value="Submit trip" />
+            </div>
+        </div>
+    </form>
+</script>

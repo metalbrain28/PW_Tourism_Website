@@ -1,0 +1,13 @@
+
+<script type="text/html" id='trip_widget_template'>
+    <div class="thumb">
+        <img src="<%= data.poster %>" alt="Trip poster">
+        <div class="thumb__overlay"></div>
+        <div class="thumb__title">
+            <h3><%= data.title %></h3>
+            <h6><%= data.short_description %></h6>
+            <p><%= data.nights_no %> nights<br>From <%= data.price %></p>
+            <a class="btn btn-default book-trip" data-tripid="<%= data.id %>" href="javascript:void(0)">Book trip</a>
+        </div>
+    </div>
+</script>

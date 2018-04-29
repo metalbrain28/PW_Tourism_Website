@@ -7,6 +7,10 @@ $routes = [
         'pattern'   => '/\/chat(\/[\d]+[\/]?$)?/',
         'file'      => '../src/chat.php'
     ],
+    'trips' => [
+        'pattern'   => '/\/trips(\/[\d]+[\/]?$)?/',
+        'file'      => '../src/trip.php'
+    ],
     'user' => [
         'pattern'   => '/\/[(login)(logout)(register)]+/',
         'file'      => '../src/user.php'
@@ -18,7 +22,6 @@ $routes = [
 ];
 
 foreach ($routes as $route) {
-
     if (preg_match($route["pattern"], $request_uri[0])) {
         require $route["file"];
         return;

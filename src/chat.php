@@ -125,7 +125,7 @@ function getAllChats($user) {
             ->raw_query('SELECT chat.id, chat.unread, chat.last_message_time, users.first_name, users.last_name from chat ' .
                 'JOIN users ON users.id=user_id ' .
                 'WHERE (last_message_time IS NOT NULL AND last_message_time != "") AND (responsible_id IS NULL OR responsible_id=:id) ' .
-                'ORDER BY unread DESC', ['id' => $user["id"]])->find_many();
+                'ORDER BY last_message_time DESC', ['id' => $user["id"]])->find_many();
 
         foreach ($chats as $chat) {
             $response[] = [
@@ -140,6 +140,7 @@ function getAllChats($user) {
         $chat = ORM::for_table('chat')
             ->table_alias('c')
             ->select('c.*')
+            ->select('m.id', 'message_id')
             ->select('m.user_id', 'from')
             ->select('m.message', 'message')
             ->select('u.id', 'user_id')
@@ -155,6 +156,7 @@ function getAllChats($user) {
 
         foreach ($chat as $message) {
             $response[] = [
+                'id'        => $message->message_id,
                 'name'      => $message->first_name . ' ' . $message->last_name,
                 'email'     => $message->user_email,
                 'message'   => $message->message,

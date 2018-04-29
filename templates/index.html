@@ -32,7 +32,12 @@
                     <button id="test" class="btn btn-default">TEST</button>
                     <h1>Ahoy, <?= isset($_SESSION['user']) ? $_SESSION['user']['name'] : 'Stranger!' ?></h1>
                     <p>Discover the places you've never been before!</p>
-                    <a href="#mostpopulartrips" class="btn btn-default">Find tour</a>
+                    <div class="main-buttons-container">
+                        <a href="#mostpopulartrips" class="btn btn-default">Find tour</a>
+                        <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin']) { ?>
+                            <button id="add_trip" class="btn btn-default">Add trip</button>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,52 +49,19 @@
         <div class="section-title">
             <h2>Most Popular Trips</h2>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6 fadeInLeft">
+        <div id="populars_container" class="row trips-widgets-container">
+            <?php foreach($popularTrips as $trip) {?>
                 <div class="thumb">
-                    <img src="/images/tour1.jpg" alt="Image 2">
+                    <img src="<?= $trip->poster ?>" alt="Trip poster">
                     <div class="thumb__overlay"></div>
                     <div class="thumb__title">
-                        <h3>Hiking in the<br>Altai</h3>
-                        <h6>Culinary adventure</h6>
-                        <p>10 days, 9 nights<br>From $590</p>
-                        <a class="btn btn-default book-trip" data-tripid="1" href="javascript:void(0)">Book trip</a>
+                        <h3><?= $trip->title ?></h3>
+                        <h6><?= $trip->short_description ?></h6>
+                        <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
+                        <a class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
                     </div>
                 </div>
-
-                <div class="thumb">
-                    <img src="/images/tour2.jpg" alt="Image 2">
-                    <div class="thumb__overlay"></div>
-                    <div class="thumb__title">
-                        <h3>Hiking in the<br>Altai</h3>
-                        <h6>Culinary adventure</h6>
-                        <p>10 days, 9 nights<br>From $590</p>
-                        <a class="btn btn-default book-trip" data-tripid="2" href="javascript:void(0)">Book trip</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 fadeInRight">
-                <div class="thumb">
-                    <img src="/images/tour4.jpg" alt="Image 2">
-                    <div class="thumb__overlay"></div>
-                    <div class="thumb__title">
-                        <h3>Hiking in the<br>Altai</h3>
-                        <h6>Culinary adventure</h6>
-                        <p>10 days, 9 nights<br>From $590</p>
-                        <a class="btn btn-default book-trip"  data-tripid="3" href="javascript:void(0)">Book trip</a>
-                    </div>
-                </div>
-                <div class="thumb">
-                    <img src="/images/tour5.jpg" alt="Image 2">
-                    <div class="thumb__overlay"></div>
-                    <div class="thumb__title">
-                        <h3>Hiking in the<br>Altai</h3>
-                        <h6>Culinary adventure</h6>
-                        <p>10 days, 9 nights<br>From $590</p>
-                        <a class="btn btn-default" href="javascript:void(0)">Book trip</a>
-                    </div>
-                </div>
-            </div>
+            <?php } ?>
         </div>
     </div>
 </section>
@@ -99,31 +71,19 @@
         <div class="section-title">
             <h2>Best Offers</h2>
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
+        <div class="row trips-widgets-container">
+            <?php foreach($bestOffers as $trip) {?>
                 <div class="thumb">
-                    <img src="/images/tour3.jpg" alt="Image 2">
+                    <img src="<?= $trip->poster ?>" alt="Trip poster">
                     <div class="thumb__overlay"></div>
                     <div class="thumb__title">
-                        <h3>Hiking in the<br>Altai</h3>
-                        <h6>Culinary adventure</h6>
-                        <p>10 days, 9 nights<br>From $590</p>
-                        <a class="btn btn-default" href="javascript:void(0)">Book trip</a>
+                        <h3><?= $trip->title ?></h3>
+                        <h6><?= $trip->short_description ?></h6>
+                        <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
+                        <a class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-                <div class="thumb">
-                    <img src="/images/tour6.jpg" alt="Image 2">
-                    <div class="thumb__overlay"></div>
-                    <div class="thumb__title">
-                        <h3>Hiking in the<br>Altai</h3>
-                        <h6>Culinary adventure</h6>
-                        <p>10 days, 9 nights<br>From $590</p>
-                        <a class="btn btn-default" href="javascript:void(0)">Book trip</a>
-                    </div>
-                </div>
-            </div>
+            <?php } ?>
         </div>
     </div>
 </section>
@@ -134,6 +94,7 @@
 <section id="contact"></section>
 
 <div id="booking_modal_container" class="container modal trip-modal"></div>
+<div id="add_trip_modal_container" class="container modal trip-modal"></div>
 
 <?php if(isset($_SESSION['user'])) { ?>
     <div class="all-chats-container chat-container container">
@@ -141,7 +102,7 @@
         <?php if(!$_SESSION['user']['is_admin']) { ?>
             <div class="chat-box hidden">
                 <div class="toggle-chat chat-header <?= $_SESSION['user']['is_admin'] ? 'admin' : 'user' ?>">Chat</div>
-                <div id="conversation_container" class="chat-widget hidden">
+                <div id="conversation_container" class="chat-widget">
                     <div id="conversation_content" class="conversation-content"></div>
                     <div class="input-container">
                         <textarea class="message-input" placeholder="Ask us a question..."></textarea>
@@ -153,7 +114,7 @@
         <?php if($_SESSION['user']['is_admin']) { ?>
             <div class="chat-box left-box hidden">
                 <div class="toggle-chat chat-header all-chats">All chats</div>
-                <div id="chats_container" class="chat-widget hidden">
+                <div id="chats_container" class="chat-widget">
                     <div id="all_chats_content"></div>
                 </div>
             </div>
