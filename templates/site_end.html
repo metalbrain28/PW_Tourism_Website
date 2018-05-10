@@ -13,12 +13,41 @@
 <script src="library/jquery.iframe-transport.js"></script>
 <script src="library/jquery.fileupload.js"></script>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa5bN2hPeMna7IPTvUu4STuLm0RNTOXqE&libraries=places&callback=initMap" async defer></script>
+
 <script src="/js/Register.js"></script>
 <script src="/js/Login.js"></script>
 <script src="/js/Chat.js"></script>
 <script src="/js/Trip.js"></script>
-<script src="/js/video.js"></script>
+<script src="/js/Events.js"></script>
 <script src="/js/scripts.js"></script>
+
+<script>
+    var map;
+    function initMap() {
+
+        var myLatLng = {lat: 45.4408, lng: 12.3155};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 3,
+            center: myLatLng
+        });
+
+        _.map(window.allTrips, function(v, k) {
+            var marker = new google.maps.Marker({
+                position: {lat: parseFloat(v.latitude), lng: parseFloat(v.longitude)},
+                map: map,
+                title: v.title,
+                id: v.id
+            });
+
+            marker.addListener('click', function() {
+                window.trips.openShowTripModal(parseInt(marker.id, 10));
+            });
+        });
+
+    }
+</script>
 
 </body>
 </html>

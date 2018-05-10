@@ -20,6 +20,7 @@ Register.prototype = {
             firstname: $(this.form.firstname),
             lastname: $(this.form.lastname),
             email: $(this.form.email),
+            phone: $(this.form.phone),
             password: $(this.form.password),
             confpass: $(this.form.confirm_password)
         };
@@ -36,11 +37,10 @@ Register.prototype = {
             firstname: this.form.firstname.value,
             lastname: this.form.lastname.value,
             email: this.form.email.value,
+            phone: this.form.phone.value,
             password: this.form.password.value,
             confpass: this.form.confirm_password.value
         };
-
-        console.log(data);
 
         $.ajax({
             url: "/register",
@@ -48,10 +48,7 @@ Register.prototype = {
             data: data,
             dataType: "json",
             success: _.bind(function(data) {
-                console.log ("Registered");
                 if (!data.length) {
-                    // $(document).trigger("login", [data.email, data.pass]);
-
                     $(this.el).html("<p class='success-log'>You have been successfully registered!</p>");
 
                     setTimeout(_.bind(function() {
@@ -74,7 +71,7 @@ Register.prototype = {
 
     close: function() {
         $(this.el).closest(".modal").removeClass("show");
-        $(".backdrop").removeClass("show");
+        $(".backdrop").addClass("hidden");
     },
 
     validateBaseElements: function(data) {

@@ -4,33 +4,64 @@
     <button class="close-modal">x</button>
     <div id="trip_modal_<%= data.id %>" class="row">
         <div class="col col-md-7">
+            <h2><%= data.title %>
+                <!--<span class="show-rating-container">-->
+                    <!--<div class="star-rating star-rating-read star-rating-sm">-->
+                        <!--<div class="star-rating-inner" style="width: 90.2%"></div>-->
+                    <!--</div>-->
+                    <!--<span class="star-rating-text">-->
+                        <!--4.51-->
+                    <!--</span>-->
+                <!--</span>-->
+
+                <div class="rating-holder">
+                    <div class="rating-result"></div>
+                    <div class="rating">
+                        <span class="fa fa-star" data-rating="1"></span>
+                        <span class="fa fa-star" data-rating="2"></span>
+                        <span class="fa fa-star" data-rating="3"></span>
+                        <span class="fa fa-star" data-rating="4"></span>
+                        <span class="fa fa-star" data-rating="5"></span>
+                    </div>
+                </div>
+            </h2>
             <div class="book-media-container">
                 <img src="<%= data.poster %>" alt="Trip image">
                 <div class="trip-info">
-                    <h3><%= data.title %></h3>
-                    <h5><%= data.short_description %></h5>
-                    <br />
+                    <h3><%= data.short_description %></h3>
+
+                    <div class="rate-container">
+                        <h3>Rate this trip: </h3>
+                        <span>
+                            <form id="ratingsForm">
+                                <div class="stars">
+                                    <input type="radio" name="star" class="star-1" id="star-1">
+                                    <label class="star-1" for="star-1">1</label>
+                                    <input type="radio" name="star" class="star-2" id="star-2">
+                                    <label class="star-2" for="star-2">2</label>
+                                    <input type="radio" name="star" class="star-3" id="star-3">
+                                    <label class="star-3" for="star-3">3</label>
+                                    <input type="radio" name="star" class="star-4" id="star-4">
+                                    <label class="star-4" for="star-4">4</label>
+                                    <input type="radio" name="star" class="star-5" id="star-5">
+                                    <label class="star-5" for="star-5">5</label>
+                                    <span></span>
+                                </div>
+                            </form>
+                        </span>
+                        <span class="rate-trip" data-id="<%= data.id %>">
+                            <button class="btn btn-rate"><i class="fa fa-check-circle"></i> Rate</button>
+                        </span>
+                    </div>
+
+                    <br /><br />
+
                     <div class="trip-description-container">
                         <%= data.description %>
                     </div>
                 </div>
             </div>
 
-            <form id="ratingsForm">
-                <div class="stars">
-                    <input type="radio" name="star" class="star-1" id="star-1">
-                    <label class="star-1" for="star-1">1</label>
-                    <input type="radio" name="star" class="star-2" id="star-2">
-                    <label class="star-2" for="star-2">2</label>
-                    <input type="radio" name="star" class="star-3" id="star-3">
-                    <label class="star-3" for="star-3">3</label>
-                    <input type="radio" name="star" class="star-4" id="star-4">
-                    <label class="star-4" for="star-4">4</label>
-                    <input type="radio" name="star" class="star-5" id="star-5">
-                    <label class="star-5" for="star-5">5</label>
-                    <span></span>
-                </div>
-            </form>
         </div>
         <div class="col col-md-5">
             <div class="book-details-container">
@@ -38,32 +69,43 @@
                 <form id="book_trip_form">
                     <label class="form-group">
                         <span class="mandatory">Name</span>
-                        <input id="bookName" class="form-control" name="name" type="text" required />
+                        <input id="bookName" class="form-control" name="name" type="text" value="<%= window.user ? window.user.full_name : '' %>" required />
                     </label>
                     <label class="form-group">
                         <span class="mandatory">Email</span>
-                        <input class="form-control" name="email" type="email" required />
+                        <input class="form-control" name="email" type="email" required value="<%= window.user ? window.user.email : '' %>" />
                     </label>
                     <label class="form-group">
                         <span class="mandatory">Phone</span>
-                        <input class="form-control" name="phone" type="number" required />
+                        <input class="form-control" name="phone" type="number" required value="<%= window.user ? window.user.phone: '' %>" />
                     </label>
                     <label class="form-group">
-                        <span class="mandatory">Start date</span>
-                        <input class="form-control" name="date" type="text" required />
+                        <span>Start date</span>
+                        <input class="form-control disabled" name="start_date" type="text" value="<%= data.start_date %>" disabled />
+                    </label>
+                    <label class="form-group">
+                        <span>End date</span>
+                        <input class="form-control disabled" name="end_date" type="text" value="<%= data.end_date %>" disabled />
                     </label>
                     <label class="form-group">
                         <span class="mandatory">Number of people</span>
-                        <input class="form-control" name="number" type="number" value="1" />
+                        <input id="people_no" class="form-control" name="number" type="number" value="1" required />
                     </label>
 
-                    <input type="checkbox" id="agreeTerms" name="terms">
+                    <input type="checkbox" id="agreeTerms" name="terms" required>
                     <label for="agreeTerms" class="mandatory">I agree with the terms and conditions.</label>
 
                     <div class="form-group">
-                        <input class="btn btn-default" type="submit" value="Book now!" />
+                        <% if (data.booked) { %>
+                            <input class="btn btn-default disabled" type="submit" value="Already booked" disabled />
+                        <% } else { %>
+                            <input class="btn btn-default" type="submit" value="Book now!" />
+                        <% } %>
                     </div>
                 </form>
+                <div class="total-price-container">
+                    <h3>Total price: $<span class="total-price"><%= data.price %></span></h3>
+                </div>
             </div>
         </div>
     </div>

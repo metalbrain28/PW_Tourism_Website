@@ -34,7 +34,7 @@ Chat.prototype = {
             } else {
                 this.getUserMessages();
             }
-        }, this), 2000);
+        }, this), 1500);
     },
 
     openAdminChat: function(e) {
@@ -181,7 +181,7 @@ Chat.prototype = {
             success: _.bind(function(data) {
                 if (this.activeChat) {
 
-                    if (this.activeChat.unread)
+                    // if (this.activeChat.unread)
 
                     this.activeChat.messages = data.chat.reverse();
                 }

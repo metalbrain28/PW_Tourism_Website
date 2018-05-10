@@ -30,7 +30,6 @@ Login.prototype = {
             },
             dataType: "json",
             success: _.bind(function() {
-                debugger;
                 window.location.reload();
             }, this),
             error: function(res, err) {

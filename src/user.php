@@ -58,6 +58,7 @@ if (strstr($request_uri[0], "register")) {
     $user->first_name = $_POST["firstname"];
     $user->last_name = $_POST["lastname"];
     $user->email = $_POST["email"];
+    $user->phone = $_POST["phone"];
     $user->password = md5($_POST["password"]);
 
     try {
@@ -94,6 +95,9 @@ function setSessionData($user) {
     $_SESSION["user"] = [
         "id"        => $user->id,
         "name"      => $user->first_name,
+        "full_name" => $user->first_name . " " . $user->last_name,
+        "email"     => $user->email,
+        "phone"     => $user->phone,
         "is_admin"  => $user->is_admin
     ];
 }

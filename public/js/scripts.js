@@ -15,8 +15,11 @@ $('a[href*="#"]')
             // Figure out element to scroll to
             var target = $(this.hash);
             target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+
             // Does a scroll target exist?
             if (target.length) {
+                $(".nav-link").removeClass("active");
+                $(event.target).addClass("active");
                 // Only prevent default if animation is actually gonna happen
                 event.preventDefault();
                 $('html, body').animate({
@@ -37,9 +40,7 @@ $('a[href*="#"]')
         }
     });
 
-
-window.onload = function() {
-
+$(document).ready(function() {
     var $loginModal = $("#login_register_modal");
     var $loginForm = $("#login-form");
     var $registerForm = $("#register-form");
@@ -50,34 +51,23 @@ window.onload = function() {
     var login = new Login();
     login.initialize();
 
-    var trip = new Trip();
-    trip.initialize();
+    window.trips = new Trip();
+    trips.initialize();
+
+    window.tracker = new Analytics();
+    tracker.initialize();
+    tracker.trackMousemove();
+    tracker.trackUserVisit();
 
     if (window.user) {
         var chat = new Chat();
         chat.initialize();
     }
 
-    /* Open trip booking modal */
-    // $(".book-trip").on("click", function(e) {
-    //
-    //     var tripID = $(this).data("tripid");
-    //
-    //     var template = $("#booking_modal").html();
-    //     $("#booking_modal_container").html(_.template(template)({tripID: tripID}));
-    //
-    //     $("#booking_modal_container").addClass("show");
-    //
-    //     $(".backdrop").addClass("show");
-    //
-    //     // var video = new Video();
-    //     // video.init();
-    // });
-
     $("#login_button").on("click", function(e) {
         e.preventDefault();
         $loginModal.addClass("show");
-        $(".backdrop").addClass("show");
+        $(".backdrop").removeClass("hidden");
     });
 
     $("#logout_button").on("click", function(e) {
@@ -99,12 +89,12 @@ window.onload = function() {
 
     $(document).on("click", ".close-modal", function() {
         $(this).closest(".modal").removeClass("show");
-        $(".backdrop").removeClass("show");
+        $(".backdrop").addClass("hidden");
     });
 
     $(document).on("click", ".backdrop", function() {
         $(".modal").removeClass("show");
-        $(".backdrop").removeClass("show");
+        $(".backdrop").addClass("hidden");
     });
 
     $("#test").click(function() {
@@ -124,4 +114,4 @@ window.onload = function() {
             }
         });
     });
-};
+});

@@ -8,38 +8,45 @@ Trip.prototype = {
     tripWidgetTemplate: null,
     showTripModalTemplate: null,
     tripModalContainer: null,
+    singlePrice: 0,
+    tripID: null,
 
     initialize: function() {
         /* Register events */
         $("#add_trip").on("click", _.bind(this.openAddTripModal, this));
 
-        $(".book-trip").on("click", _.bind(this.openShowTripModal, this));
-        // $(".book-trip").on("click", function(e) {
-        //
-        //     var tripID = $(this).data("tripid");
-        //
-        //     var template = $("#booking_modal").html();
-        //     $("#booking_modal_container").html(_.template(template)({tripID: tripID}));
-        //
-        //     $("#booking_modal_container").addClass("show");
-        //     $(".backdrop").addClass("show");
-        //
-        //     // var video = new Video();
-        //     // video.init();
-        // });
+        $(document).on("click", ".book-trip", _.bind(this.openShowTripModal, this));
     },
 
     openShowTripModal: function(e) {
-        var tripID = $(e.target).closest(".thumb").data("id");
+        var tripID = (typeof e === "number" ?  e : $(e.target).closest(".thumb").data("id"));
 
         return $.ajax({
             method: "GET",
             url: "/trips/" + tripID,
             dataType: "json",
             success: _.bind(function(data) {
+                this.tripID = data.data.id;
+                this.singlePrice = data.data.price;
                 this.tripModalContainer.html(_.template(this.showTripModalTemplate)(data));
                 this.tripModalContainer.addClass("show");
-                $(".backdrop").addClass("show");
+                $(".backdrop").removeClass("hidden");
+
+                $("#people_no").on("change", _.bind(function(e){
+                    $(".total-price").text(parseInt(this.singlePrice * parseFloat(e.target.value) * 100, 10) / 100);
+                }, this));
+
+                $("#book_trip_form").on("submit", _.bind(this.submitBookTrip, this));
+
+                $(".fa-star").on("mouseover", _.bind(function(e) {
+                    var starIndex = $(".fa-star").index(e.target);
+
+                    $(".fa-star").removeClass("active");
+
+                    for (var i = 0; i <= starIndex; i++) {
+                        $(".fa-star").eq(i).addClass("active");
+                    }
+                }, this));
             }, this),
             error: function(err) {
                 console.log(err);
@@ -47,14 +54,37 @@ Trip.prototype = {
         });
     },
 
-    renderNewTrip: function() {
+    submitBookTrip: function(e) {
+        e.preventDefault();
 
+        var form = e.target;
+        var data = {
+            name: form.name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            people_no: form.number.value
+        };
+
+        return $.ajax({
+            method: "POST",
+            url: "/trips/" + this.tripID,
+            dataType: "json",
+            data: data,
+            success: _.bind(function(data) {
+                console.log("Booked:");
+                console.log(data);
+            }, this),
+            error: function(xhr) {
+                // TODO: render a "message not sent" next or smth
+                console.log(xhr);
+            }
+        });
     },
 
     openAddTripModal: function(e) {
         var template = $("#add_trip_template").html();
         $("#add_trip_modal_container").html(_.template(template)()).addClass("show");
-        $(".backdrop").addClass("show");
+        $(".backdrop").removeClass("hidden");
 
         $(".close").one("click", _.bind(this.closeAddTripModal, this));
         $(".file_upload").off("click").on("click", function(e) { $(e.target).find("input[type='file']").click(); });
@@ -65,12 +95,12 @@ Trip.prototype = {
 
         $("#trip_date_range").dateRangePicker();
 
-        $("#add_trip_form").on("submit", _.bind(this.submitTrip, this))
+        $("#add_trip_form").on("submit", _.bind(this.submitTrip, this));
     },
 
     closeAddTripModal: function(e) {
         $("#add_trip_modal_container").empty().hide();
-        $(".backdrop").removeClass("show");
+        $(".backdrop").addClass("hidden");
     },
 
     submitTrip: function(e) {
@@ -105,7 +135,10 @@ Trip.prototype = {
             contentType: false,
             data: fd,
             success: _.bind(function(data) {
-                console.log(data)
+                $("#all_trips_container").append(_.template(this.tripWidgetTemplate)(data));
+
+                $("#add_trip_modal_container").removeClass("show");
+                $(".backdrop").addClass("hidden");
             }, this),
             error: function(xhr) {
                 // TODO: render a "message not sent" next or smth

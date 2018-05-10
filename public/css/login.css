@@ -197,14 +197,14 @@
     transition-property: all;
     transition-duration: .5s;
     transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-    top: -600px;
+    top: -800px;
 }
 
 .login-modal.show {
     top: 120px;
 }
 
-#login_button:hover {
+#login_button, #logout_button {
     cursor: pointer;
 }
 

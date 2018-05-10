@@ -1,20 +1,21 @@
 
 <nav class="navbar site-navigation">
     <div class="container">
-        <a class="navbar-brand" href="#"><img class="logo-image" src="/images/logo4.png" alt=""></a>
+        <a id="navbar_brand" class="navbar-brand" href="#"><img class="logo-image" src="/images/logo4.png" alt=""></a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                <li class="nav-item"><a id="nav_link_home" class="nav-link active" href="#home">Home</a></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#mostpopulartrips">Tours</a>
+                    <a id="nav_link_tours" class="nav-link" href="#mostpopulartrips">Tours</a>
                     <ul class="navbar-nav--child">
-                        <li class="nav-item--child"><a class="nav-link" href="#mostpopulartrips">Most Popular</a></li>
-                        <li class="nav-item--child"><a class="nav-link" href="#bestoffers">Best Offers</a></li>
-                        <li class="nav-item--child"><a class="nav-link" href="#all_trips">All Trips</a></li>
+                        <li class="nav-item--child"><a id="nav_link_popular" class="nav-link" href="#mostpopulartrips">Most Popular</a></li>
+                        <li class="nav-item--child"><a id="nav_link_boffers" class="nav-link" href="#bestoffers">Best Offers</a></li>
+                        <li class="nav-item--child"><a id="nav_link_all" class="nav-link" href="#all_trips">All Trips</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <li class="nav-item"><a id="nav_link_statistics" class="nav-link" href="#statistics">Statistics</a></li>
+                <li class="nav-item"><a id="nav_link_map" class="nav-link map-link" href="#map_section">Map</a></li>
+                <li class="nav-item"><a id="nav_link_mouse" class="nav-link mouse-statistics" href="#mouseStatistics">Mouse move statistics</a></li>
 
                 <?= isset($_SESSION['user']) ? '<li class="nav-item"><a id="logout_button" class="nav-link btn-default logout">Logout</a></li>' : '<li class="nav-item"><a id="login_button" class="nav-link btn-default login">Login</a></li>' ?>
             </ul>
@@ -22,7 +23,7 @@
     </div>
 </nav>
 
-<div class="backdrop"></div>
+<div class="backdrop hidden"></div>
 
 <section id="home">
     <div class="container">
@@ -32,7 +33,7 @@
                     <h1>Ahoy, <?= isset($_SESSION['user']) ? $_SESSION['user']['name'] : 'Stranger!' ?></h1>
                     <p>Discover the places you've never been before!</p>
                     <div class="main-buttons-container">
-                        <a href="#mostpopulartrips" class="btn btn-default">Find tour</a>
+                        <a id="main_button" href="#mostpopulartrips" class="btn btn-default">Find tour</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin']) { ?>
                             <button id="add_trip" class="btn btn-default">Add trip</button>
                         <?php } ?>
@@ -57,7 +58,7 @@
                         <h3><?= $trip->title ?></h3>
                         <h6><?= $trip->short_description ?></h6>
                         <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
-                        <a class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
+                        <a id="trip_popular_<?= $trip->id ?>" class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
                     </div>
                 </div>
             <?php } ?>
@@ -79,7 +80,7 @@
                         <h3><?= $trip->title ?></h3>
                         <h6><?= $trip->short_description ?></h6>
                         <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
-                        <a class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
+                        <a id="trip_offer_<?= $trip->id ?>" class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
                     </div>
                 </div>
             <?php } ?>
@@ -92,7 +93,7 @@
         <div class="section-title">
             <h2>All Trips</h2>
         </div>
-        <div class="row trips-widgets-container">
+        <div id="all_trips_container" class="row trips-widgets-container">
             <?php foreach($allTrips as $trip) {?>
             <div class="thumb" data-id="<?= $trip->id ?>">
                 <img src="<?= $trip->poster ?>" alt="Trip poster">
@@ -101,7 +102,7 @@
                     <h3><?= $trip->title ?></h3>
                     <h6><?= $trip->short_description ?></h6>
                     <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
-                    <a class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
+                    <a id="trip_button_<?= $trip->id ?>" class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
                 </div>
             </div>
             <?php } ?>
@@ -109,9 +110,66 @@
     </div>
 </section>
 
+<section id="map_section">
+    <div class="container">
+        <div id="map"></div>
+    </div>
+</section>
+
+
+<section id="statistics">
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-12 text-center">
+                <table id="q-graph">
+                    <caption>Visitors statistics</caption>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th class="sent">Visitors</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php foreach ($statistics as $k => $v) { ?>
+                            <tr class="qtr" id="q<?= $k + 1 ?>" style="left: <?= $k * 90 ?>px">
+                                <th scope="row"><?= $v->day ?></th>
+                                <td class="sent bar" style="height: <?= (($v->counter * 240) / $maxVisits) + 2 ?>px;"><p><?= $v->counter ?></p></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+                <div id="ticks">
+                    <div class="tick" style="height: 60px;"><p><?= $maxVisits ?></p></div>
+                    <div class="tick" style="height: 60px;"><p><?= intval(($maxVisits / 2) + ($maxVisits / 4)) ?></p></div>
+                    <div class="tick" style="height: 60px;"><p><?= intval($maxVisits / 2) ?></p></div>
+                    <div class="tick" style="height: 60px;"><p><?= intval($maxVisits / 4) ?></p></div>
+                    <div class="tick" style="height: 60px"><p>0</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section id="services"></section>
-<section id="about"></section>
-<section id="contact"></section>
+<section id="mouseStatistics" class="hidden">
+    <?php foreach ($mouseStatistics as $k => $v) { ?>
+        <?php $details = json_decode($v->details) ?>
+        <?php $h = (1.0 - $v->counter) * 240; ?>
+        <div class="mouse-coordinates" data-count="<?= $v->counter ?>" style="left: <?= $details->pageX ?>px; top: <?= $details->pageY ?>px; background-color:hsl(<?= $h ?>, 100%, 50%)"></div>
+    <?php } ?>
+</section>
+
+<section id="linksStatistics">
+    <?php $linksDetails = json_decode($linksStatistics->details) ?>
+
+    <?php foreach ($mouseStatistics as $k => $v) { ?>
+        <div class="link-bullet">
+
+        </div>
+    <?php } ?>
+</section>
 
 <div id="booking_modal_container" class="container modal trip-modal"></div>
 <div id="add_trip_modal_container" class="container modal trip-modal"></div>
@@ -141,3 +199,8 @@
         <?php } ?>
     </div>
 <?php } ?>
+
+
+<script>
+    window.allTrips = <?= json_encode($allTripsData) ?>;
+</script>

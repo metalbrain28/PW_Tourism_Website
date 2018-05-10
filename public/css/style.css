@@ -7,6 +7,7 @@ body {
     line-height: 28px;
     background: #282828;
     margin: 0;
+    overflow-x: hidden;
 }
 
 a {
@@ -44,7 +45,7 @@ a[ id= "contacto" ]:target ~ #main article.panel {
 /* Navbar */
 .navbar {
     position: fixed;
-    z-index: 3;
+    z-index: 4;
     width: 100%;
     background-color: rgba(0,0,0,.8);
 }
@@ -256,7 +257,7 @@ a.nav-link.btn-default {
 }
 
 /* Tours */
-section#tours, section#services, section#all_trips, section#contact
+section#tours, section#services, section#all_trips, section#contact, section#statistics
 {
     padding-top: 60px;
 }
@@ -309,6 +310,10 @@ button.close-modal:hover {
     padding: 30px;
 }
 
+.book-media-container > img {
+    max-width: 100%;
+}
+
 .video-container {
     position: relative;
 }
@@ -354,6 +359,10 @@ button.close-modal:hover {
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
 }
 
+.form-control.disabled {
+    background-color: #cccccc;
+}
+
 .book_now input {
     background: #fff none repeat scroll 0 0;
     border-color: currentcolor currentcolor #eee;
@@ -366,10 +375,15 @@ button.close-modal:hover {
 }
 
 /* Rating start */
+.rate-container > span, .rate-container h3 {
+    float: left;
+    line-height: 0;
+    margin-right: 15px;
+}
+
 form .stars {
     background: url("/images/stars.png") repeat-x 0 0;
     width: 150px;
-    margin: 0 auto;
 }
 
 form .stars input[type="radio"] {
@@ -430,17 +444,91 @@ form .stars span {
 }
 /* Rating end */
 
+/* Display start rating start */
+.show-rating-container {
+    float: right;
+    line-height: 32px;
+}
+
+.star-rating-container {
+    display: block;
+    text-decoration: none!important;
+}
+
+.star-rating {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: top;
+    height: 32px;
+    font-size: 26px;
+    color: #ccc;
+    letter-spacing: 2px;
+}
+
+.star-rating.star-rating-sm {
+    height: 30px;
+    font-size: 30px;
+}
+
+.star-rating:before {
+    position: relative;
+    content: "\2605\2605\2605\2605\2605";
+    display: inline-block;
+}
+
+.star-rating .star-rating-inner {
+    white-space: nowrap;
+    position: absolute;
+    line-height: inherit;
+    height: inherit;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.star-rating-read .star-rating-inner:before {
+    position: relative;
+    content: "\2605\2605\2605\2605\2605";
+    color: #f9bf3b;
+}
+
+.star-rating-text {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 5px;
+    font-size: 14px;
+}
+
+span.rate-trip {
+    float: left;
+    font-size: 20px;
+}
+
+.btn.btn-rate {
+    cursor: pointer;
+    line-height: 24px;
+    font-size: 15px;
+}
+
+.btn.disabled {
+    background-color: #999;
+    border-color: #999;
+}
+
+.btn.btn-rate:hover {
+    color: #4caf50;
+}
+
+/* Display start rating end */
+
 .backdrop {
     width: 100%;
     height: 100%;
     position: fixed;
     background-color: rgba(0,0,0,0.6);
     z-index: 2;
-    display: none;
-}
-
-.backdrop.show {
-    display: block;
 }
 
 .modal {
@@ -730,4 +818,45 @@ div.file_upload input {
     font-size: 18px;
     right: 18%;
     color: #999;
+}
+
+#mouseStatistics {
+    position: absolute;
+    top: 0;
+    z-index: 3;
+}
+
+/* Mouse move statistics */
+.mouse-coordinates {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 30px;
+    opacity: 0.7;
+}
+
+
+/* Rating */
+.rating-holder {
+    float: right;
+    margin-right: 50px;
+}
+
+.rating-holder .rating {
+    color: #ddd;
+    margin: 0 auto;
+}
+
+.fa-star:before {
+    content: "\f005";
+}
+
+.rating span.fa {
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 1px;
+}
+
+.rating span.active {
+    color: #e9c8a0;
 }

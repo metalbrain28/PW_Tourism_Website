@@ -15,6 +15,9 @@ ORM::get_db()->exec(
     'id INTEGER PRIMARY KEY AUTOINCREMENT, ' .
     'user_id INTEGER, ' .
     'trip_id INTEGER, ' .
+    'name TEXT, ' .
+    'email TEXT, ' .
+    'phone TEXT, ' .
     'people_no INTEGER, ' .
     'total_price REAL, ' .
     'timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, ' .

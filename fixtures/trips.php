@@ -21,6 +21,8 @@ ORM::get_db()->exec(
     'end_date DATETIME, ' .
     'nights_no INTEGER, ' .
     'price REAL, ' .
+    'latitude REAL, ' .
+    'longitude REAL, ' .
     'rating INTEGER DEFAULT 0)'
 );
 
@@ -30,7 +32,7 @@ function rand_float($st_num=0,$end_num=1,$mul=100)
     return mt_rand($st_num*$mul,$end_num*$mul)/$mul;
 }
 
-function createTrip($title, $short_description, $index) {
+function createTrip($title, $short_description, $lat, $long, $index) {
     $nights_no = mt_rand(1, 10);
     $rating = rand_float(0, 5);
 
@@ -44,13 +46,17 @@ function createTrip($title, $short_description, $index) {
     $trip->end_date = date("Y-m-d", strtotime("+". ($nights_no + 1) ." day"));
     $trip->poster = "/images/tour".($index + 1).".jpg";
     $trip->rating = $rating;
+    $trip->latitude = $lat;
+    $trip->longitude = $long;
     $trip->save();
 }
 
 $titles = ["Belize & Guatemala", "Vietnam, Laos & Cambodia", "Thailand", "Loire & Burgundy", "Norway", "Venice, Florence & Rome"];
 $short_descriptions = ["Family journey", "Culinary adventure", "Group tour", "For honeymooners", "Cultural walking adventure", "Educational tour"];
+$latitudes = [17.1899, 14.0583, 15.8700, 47.5532, 60.4720, 45.4408];
+$longitudes = [88.4976, 108.2772, 100.9925, 1.0105, 8.4689, 12.3155];
 
 for ($i = 0; $i < 6; $i++) {
-    createTrip($titles[$i], $short_descriptions[$i], $i);
+    createTrip($titles[$i], $short_descriptions[$i], $latitudes[$i], $longitudes[$i], $i);
 }
 

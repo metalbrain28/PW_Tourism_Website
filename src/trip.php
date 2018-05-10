@@ -49,7 +49,11 @@ if ($isAllTrips) {
             try {
                 $trip->save();
 
-                $response_data = array_merge($_POST, ["id" => $trip->id, "rating" => 0]);
+                $response_data = array_merge($_POST, [
+                    "id"        => $trip->id,
+                    "rating"    => 0,
+                    "poster"    => $poster_url
+                ]);
 
                 header('Content-Type: application/json');
                 echo json_encode([
@@ -75,23 +79,72 @@ if ($isAllTrips) {
 }
 
 if ($isSingleTrip) {
+    $tripID = $matchedTripID[1];
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $data = ORM::for_table('trips')->find_one($matchedTripID[1]);
+        $tripData = ORM::for_table('trips')->find_one($tripID);
+
+        $userTripData = [];
+        if (isset($_SESSION["user"])) {
+            $userTripData = ORM::for_table('users_trips')
+                ->where('trip_id', $tripID)
+                ->where('user_id', $_SESSION["user"]["id"])
+                ->find_one();
+        }
 
         header('Content-Type: application/json');
         echo json_encode([
             "data" => [
-                "id"                => $data->id,
-                "title"             => $data->title,
-                "short_description" => $data->short_description,
-                "description"       => $data->description,
-                "price"             => $data->price,
-                "rating"            => $data->rating,
-                "start_date"        => $data->start_date,
-                "end_date"          => $data->end_date,
-                "poster"            => $data->poster
+                "id"                => $tripData->id,
+                "title"             => $tripData->title,
+                "short_description" => $tripData->short_description,
+                "description"       => $tripData->description,
+                "price"             => $tripData->price,
+                "rating"            => $tripData->rating,
+                "start_date"        => $tripData->start_date,
+                "end_date"          => $tripData->end_date,
+                "poster"            => $tripData->poster,
+                "booked"            => $userTripData ? true : false
             ]
         ]);
         return;
+    } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $data = ORM::for_table('trips')->find_one($tripID);
+
+        $trip = ORM::for_table('users_trips')->create();
+        $trip->user_id = isset($_SESSION["user"]) ? $_SESSION["user"]["id"] : null;
+        $trip->trip_id = $tripID;
+        $trip->name = $_POST["name"];
+        $trip->email = $_POST["email"];
+        $trip->phone = $_POST["phone"];
+        $trip->people_no = $_POST["people_no"];
+        $trip->total_price = $_POST["people_no"] * $data->price;
+        $trip->timestamp = date("Y-m-d H:i:s");
+
+        try {
+            $trip->save();
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                "data" => [
+                    "id"                => $data->id,
+                    "title"             => $data->title,
+                    "short_description" => $data->short_description,
+                    "description"       => $data->description,
+                    "price"             => $data->price,
+                    "rating"            => $data->rating,
+                    "start_date"        => $data->start_date,
+                    "end_date"          => $data->end_date,
+                    "poster"            => $data->poster,
+                    "booked"            => 1
+                ]
+            ]);
+            return;
+        } catch (Exception $e) {
+            http_response_code(500);
+
+            echo json_encode([
+                'message'   =>  'Could not book this trip. Try again later.'
+            ]);
+        }
     }
 }

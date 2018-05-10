@@ -11,6 +11,14 @@ $routes = [
         'pattern'   => '/\/trips(\/[\d]+[\/]?$)?/',
         'file'      => '../src/trip.php'
     ],
+    'rate' => [
+        'pattern'   => '/\/rate[\/]?/',
+        'file'      => '../src/rating.php'
+    ],
+    'track' => [
+        'pattern'   => '/\/track[\/]?/',
+        'file'      => '../src/tracker.php'
+    ],
     'user' => [
         'pattern'   => '/\/[(login)(logout)(register)]+/',
         'file'      => '../src/user.php'
