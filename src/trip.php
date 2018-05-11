@@ -44,6 +44,8 @@ if ($isAllTrips) {
             $trip->price = $_POST["price"];
             $trip->start_date = $_POST["start_date"];
             $trip->end_date = $_POST["end_date"];
+            $trip->latitude = $_POST["latitude"];
+            $trip->longitude = $_POST["longitude"];
             $trip->poster = $poster_url;
 
             try {
@@ -52,7 +54,9 @@ if ($isAllTrips) {
                 $response_data = array_merge($_POST, [
                     "id"        => $trip->id,
                     "rating"    => 0,
-                    "poster"    => $poster_url
+                    "poster"    => $poster_url,
+                    "latitude"  => $trip->latitude,
+                    "longitude" => $trip->longitude
                 ]);
 
                 header('Content-Type: application/json');

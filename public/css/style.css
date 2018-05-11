@@ -413,20 +413,24 @@ form .stars label {
     position: relative;
     z-index: 10;
     background: transparent!important;
+}
+
+form .stars.enabled label {
     cursor: pointer;
 }
 
-form .stars label:hover ~ span { background-position: 0 -30px; }
+form .stars.enabled label:hover ~ span { background-position: 0 -30px; }
 
-form .stars label.star-5:hover ~ span { width: 100% !important; }
+form .stars.enabled label.star-5:hover ~ span { width: 100% !important; }
 
-form .stars label.star-4:hover ~ span { width: 80% !important; }
+form .stars.enabled label.star-4:hover ~ span { width: 80% !important; }
 
-form .stars label.star-3:hover ~ span { width: 60% !important; }
+form .stars.enabled label.star-3:hover ~ span { width: 60% !important; }
 
-form .stars label.star-2:hover ~ span { width: 40% !important; }
+form .stars.enabled label.star-2:hover ~ span { width: 40% !important; }
 
-form .stars label.star-1:hover ~ span { width: 20% !important; }
+form .stars.enabled label.star-1:hover ~ span { width: 20% !important; }
+
 
 form .stars span {
     display: block;
@@ -515,10 +519,15 @@ span.rate-trip {
 .btn.disabled {
     background-color: #999;
     border-color: #999;
+    cursor: default;
 }
 
 .btn.btn-rate:hover {
     color: #4caf50;
+}
+
+.btn-rate.disabled:hover {
+    color: inherit;
 }
 
 /* Display start rating end */
@@ -722,6 +731,7 @@ span.rate-trip {
     padding: 30px;
     height: auto;
     top: 100px;
+    max-height: 85%;
 }
 
 #add_trip_modal_container .form-control {
@@ -859,4 +869,8 @@ div.file_upload input {
 
 .rating span.active {
     color: #e9c8a0;
+}
+
+#map_add {
+    height: 300px;
 }

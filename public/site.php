@@ -12,23 +12,37 @@ require_once '../library/idiorm.php';
 ORM::configure('sqlite:../database.sqlite');
 
 $popularTrips = ORM::for_table('trips')
-//    ->where_gte('start_date', date("Y-m-d"))
     ->order_by_desc('rating')
     ->order_by_asc('start_date')
     ->limit(4)
     ->find_many();
 
 $bestOffers = ORM::for_table('trips')
-//    ->where_gte('start_date', date("Y-m-d"))
     ->order_by_asc('price')
     ->order_by_desc('rating')
     ->limit(4)
     ->find_many();
 
-$allTrips = ORM::for_table('trips')
-//    ->where_gte('start_date', date("Y-m-d"))
-    ->order_by_asc('start_date')
-    ->find_many();
+if (isset($_SESSION["user"])) {
+    $allTrips = ORM::for_table('trips')
+        ->select('trips.*')
+        ->select('u_t.trip_id')
+        ->left_outer_join("users_trips", "u_t.trip_id=trips.id and u_t.user_id=" . $_SESSION["user"]["id"], 'u_t')
+        ->order_by_asc('start_date')
+        ->find_many();
+
+    $myTrips = ORM::for_table('trips')
+        ->select('trips.*')
+        ->select('u_t.trip_id')
+        ->join("users_trips", "u_t.trip_id=trips.id and u_t.user_id=" . $_SESSION["user"]["id"], 'u_t')
+        ->order_by_desc('u_t.timestamp')
+        ->find_many();
+} else {
+    $allTrips = ORM::for_table('trips')
+        ->order_by_asc('start_date')
+        ->find_many();
+}
+
 
 $statistics = ORM::for_table('analytics')
     ->raw_query('SELECT COUNT(id) as counter, strftime(\'%Y-%m-%d\', timestamp) as day FROM analytics WHERE action="visit" GROUP BY day ORDER BY day DESC LIMIT 7')

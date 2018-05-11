@@ -5,25 +5,14 @@
     <div id="trip_modal_<%= data.id %>" class="row">
         <div class="col col-md-7">
             <h2><%= data.title %>
-                <!--<span class="show-rating-container">-->
-                    <!--<div class="star-rating star-rating-read star-rating-sm">-->
-                        <!--<div class="star-rating-inner" style="width: 90.2%"></div>-->
-                    <!--</div>-->
-                    <!--<span class="star-rating-text">-->
-                        <!--4.51-->
-                    <!--</span>-->
-                <!--</span>-->
-
-                <div class="rating-holder">
-                    <div class="rating-result"></div>
-                    <div class="rating">
-                        <span class="fa fa-star" data-rating="1"></span>
-                        <span class="fa fa-star" data-rating="2"></span>
-                        <span class="fa fa-star" data-rating="3"></span>
-                        <span class="fa fa-star" data-rating="4"></span>
-                        <span class="fa fa-star" data-rating="5"></span>
+                <span class="show-rating-container">
+                    <div class="star-rating star-rating-read star-rating-sm">
+                        <div class="star-rating-inner" style="width: 90.2%"></div>
                     </div>
-                </div>
+                    <span class="star-rating-text">
+                        4.51
+                    </span>
+                </span>
             </h2>
             <div class="book-media-container">
                 <img src="<%= data.poster %>" alt="Trip image">
@@ -34,16 +23,16 @@
                         <h3>Rate this trip: </h3>
                         <span>
                             <form id="ratingsForm">
-                                <div class="stars">
-                                    <input type="radio" name="star" class="star-1" id="star-1">
+                                <div class="stars enabled">
+                                    <input type="radio" data-value="1" name="star" class="star-1" id="star-1">
                                     <label class="star-1" for="star-1">1</label>
-                                    <input type="radio" name="star" class="star-2" id="star-2">
+                                    <input type="radio" data-value="2" name="star" class="star-2" id="star-2">
                                     <label class="star-2" for="star-2">2</label>
-                                    <input type="radio" name="star" class="star-3" id="star-3">
+                                    <input type="radio" data-value="3" name="star" class="star-3" id="star-3">
                                     <label class="star-3" for="star-3">3</label>
-                                    <input type="radio" name="star" class="star-4" id="star-4">
+                                    <input type="radio" data-value="4" name="star" class="star-4" id="star-4">
                                     <label class="star-4" for="star-4">4</label>
-                                    <input type="radio" name="star" class="star-5" id="star-5">
+                                    <input type="radio" data-value="5" name="star" class="star-5" id="star-5">
                                     <label class="star-5" for="star-5">5</label>
                                     <span></span>
                                 </div>

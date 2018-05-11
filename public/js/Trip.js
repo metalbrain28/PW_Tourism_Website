@@ -10,6 +10,9 @@ Trip.prototype = {
     tripModalContainer: null,
     singlePrice: 0,
     tripID: null,
+    mapMarker: null,
+    latitude: 0,
+    longitude: 0,
 
     initialize: function() {
         /* Register events */
@@ -47,6 +50,27 @@ Trip.prototype = {
                         $(".fa-star").eq(i).addClass("active");
                     }
                 }, this));
+
+                $(".btn-rate").on("click", _.bind(function(e) {
+                    var rating = $(".stars").find("input[type='radio']:checked").eq(0).data("value");
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/rating/" + this.tripID,
+                        dataType: "json",
+                        data: {rating: rating},
+                        success: _.bind(function(data) {
+                            console.log("Rated!");
+                            $(".stars").removeClass("enabled");
+                            $(".btn-rate").addClass("disabled").off("click");
+                        }, this),
+                        error: function(xhr) {
+                            // TODO: render a "message not sent" next or smth
+                            console.log(xhr);
+                        }
+                    });
+                }, this));
+
             }, this),
             error: function(err) {
                 console.log(err);
@@ -71,8 +95,7 @@ Trip.prototype = {
             dataType: "json",
             data: data,
             success: _.bind(function(data) {
-                console.log("Booked:");
-                console.log(data);
+                this.closeBookTripModal();
             }, this),
             error: function(xhr) {
                 // TODO: render a "message not sent" next or smth
@@ -86,6 +109,8 @@ Trip.prototype = {
         $("#add_trip_modal_container").html(_.template(template)()).addClass("show");
         $(".backdrop").removeClass("hidden");
 
+        this.initializeAddTripMap();
+
         $(".close").one("click", _.bind(this.closeAddTripModal, this));
         $(".file_upload").off("click").on("click", function(e) { $(e.target).find("input[type='file']").click(); });
         $(".file_upload input[type='file']").change(function(e) {
@@ -98,8 +123,36 @@ Trip.prototype = {
         $("#add_trip_form").on("submit", _.bind(this.submitTrip, this));
     },
 
-    closeAddTripModal: function(e) {
+    initializeAddTripMap: function() {
+        var myLatLng = {lat: 45.4408, lng: 12.3155};
+
+        var map = new google.maps.Map(document.getElementById('map_add'), {
+            zoom: 3,
+            center: myLatLng
+        });
+
+        google.maps.event.addListener(map, 'click', _.bind(function(event) {
+            this.addMarker(event.latLng, map);
+        }, this));
+    },
+
+    addMarker: function(location, map) {
+        this.mapMarker ? this.mapMarker.setMap(null) : null;
+        var label = $("#add_trip_form").find("input[name='title']").val();
+        this.mapMarker = new google.maps.Marker({
+            position: location,
+            label: label,
+            map: map
+        });
+    },
+
+    closeAddTripModal: function() {
         $("#add_trip_modal_container").empty().hide();
+        $(".backdrop").addClass("hidden");
+    },
+
+    closeBookTripModal: function() {
+        $("#booking_modal_container").empty().hide();
         $(".backdrop").addClass("hidden");
     },
 
@@ -115,6 +168,8 @@ Trip.prototype = {
         var date_range = form.date_range.value.split(" to ");
         var start_date = date_range[0];
         var end_date = date_range[1];
+        var lat = this.mapMarker.position.lat();
+        var lng = this.mapMarker.position.lng();
         var poster = form.poster.files[0];
 
         var fd = new FormData();
@@ -125,6 +180,8 @@ Trip.prototype = {
         fd.append('price', price);
         fd.append('start_date', start_date);
         fd.append('end_date', end_date);
+        fd.append('latitude', lat);
+        fd.append('longitude', lng);
         fd.append('poster', poster);
 
         $.ajax({

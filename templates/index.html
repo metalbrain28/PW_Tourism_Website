@@ -11,6 +11,7 @@
                         <li class="nav-item--child"><a id="nav_link_popular" class="nav-link" href="#mostpopulartrips">Most Popular</a></li>
                         <li class="nav-item--child"><a id="nav_link_boffers" class="nav-link" href="#bestoffers">Best Offers</a></li>
                         <li class="nav-item--child"><a id="nav_link_all" class="nav-link" href="#all_trips">All Trips</a></li>
+                        <li class="nav-item--child"><a id="nav_link_my" class="nav-link" href="#my_trips">My Trips</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a id="nav_link_statistics" class="nav-link" href="#statistics">Statistics</a></li>
@@ -102,13 +103,38 @@
                     <h3><?= $trip->title ?></h3>
                     <h6><?= $trip->short_description ?></h6>
                     <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
-                    <a id="trip_button_<?= $trip->id ?>" class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">Book trip</a>
+                    <a id="trip_button_<?= $trip->id ?>" class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)"><?= $trip->trip_id ? "View trip" : "Book trip" ?></a>
                 </div>
             </div>
             <?php } ?>
         </div>
     </div>
 </section>
+
+<?php if (isset($_SESSION["user"])) { ?>
+<section id="my_trips">
+    <div class="container">
+        <div class="section-title">
+            <h2>My Trips</h2>
+        </div>
+        <div id="my_trips_container" class="row trips-widgets-container">
+            <?php foreach($myTrips as $trip) {?>
+            <div class="thumb" data-id="<?= $trip->id ?>">
+                <img src="<?= $trip->poster ?>" alt="Trip poster">
+                <div class="thumb__overlay"></div>
+                <div class="thumb__title">
+                    <h3><?= $trip->title ?></h3>
+                    <h6><?= $trip->short_description ?></h6>
+                    <p><?= $trip->nights_no ?> nights<br>From $<?= $trip->price ?></p>
+                    <a id="my_trip_button_<?= $trip->id ?>" class="btn btn-default book-trip" data-tripid="<?= $trip->id ?>" href="javascript:void(0)">View trip</a>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</section>
+<?php } ?>
+
 
 <section id="map_section">
     <div class="container">

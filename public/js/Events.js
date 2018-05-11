@@ -68,7 +68,7 @@ Analytics.prototype = {
                 details: details
             },
             success: function(data) {
-                console.log(data);
+                // console.log(data);
             },
             error: function(xhr) {
                 console.log(xhr);
