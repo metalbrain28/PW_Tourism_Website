@@ -153,10 +153,13 @@
 
 <section id="statistics">
     <div class="container">
+        <div class="section-title">
+            <h2>Users visits statistics</h2>
+        </div>
         <div class="row">
             <div class="col col-md-12 text-center">
                 <table id="q-graph">
-                    <caption>Visitors statistics</caption>
+                    <caption></caption>
                     <thead>
                     <tr>
                         <th></th>
@@ -186,22 +189,12 @@
     </div>
 </section>
 
-<section id="services"></section>
 <section id="mouseStatistics" class="hidden">
+    <div class="section-title"><h2></h2></div>
     <?php foreach ($mouseStatistics as $k => $v) { ?>
         <?php $details = json_decode($v->details) ?>
         <?php $h = (1.0 - $v->counter) * 240; ?>
         <div class="mouse-coordinates" data-count="<?= $v->counter ?>" style="left: <?= $details->pageX ?>px; top: <?= $details->pageY ?>px; background-color:hsl(<?= $h ?>, 100%, 50%)"></div>
-    <?php } ?>
-</section>
-
-<section id="linksStatistics">
-    <?php $linksDetails = json_decode($linksStatistics->details) ?>
-
-    <?php foreach ($mouseStatistics as $k => $v) { ?>
-        <div class="link-bullet">
-
-        </div>
     <?php } ?>
 </section>
 

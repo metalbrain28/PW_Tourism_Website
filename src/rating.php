@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rating->rating = $_POST["rating"];
 
     $trip = ORM::for_table('trips')->find_one($tripID);
-    $trip->rating = ($trip->rating + $_POST["rating"]) / 2;
+    $trip->rating = ($trip->rating > 0 ? (($trip->rating + $_POST["rating"]) / 2) : $_POST["rating"]);
 
     try {
         $rating->save();
