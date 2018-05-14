@@ -55,7 +55,7 @@ $mouseStatistics = ORM::for_table('analytics')
 $linksStatistics = ORM::for_table('analytics')
     ->where('action', 'links')
     ->order_by_desc('id')
-    ->find_one();
+    ->find_many();
 
 $maxVisits = 0;
 foreach ($statistics as $k => $v) {
@@ -63,6 +63,22 @@ foreach ($statistics as $k => $v) {
 }
 
 $statistics = array_reverse($statistics);
+
+$allLinks = [];
+foreach ($linksStatistics as $linkData) {
+    $details = json_decode($linkData->details)->linksList;
+    foreach ($details as $linkID) {
+        if (in_array($linkID, array_keys($allLinks))) {
+            $allLinks[$linkID] = ++$allLinks[$linkID];
+        } else {
+            $allLinks[$linkID] = 1;
+        }
+    }
+}
+
+arsort($allLinks);
+$allLinks = json_encode($allLinks);
+echo "<script>window.linksStatistics = $allLinks;</script>";
 
 $allTripsData = [];
 foreach ($allTrips as $trip) {

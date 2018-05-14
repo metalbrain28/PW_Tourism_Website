@@ -18,10 +18,16 @@ $rating = preg_match('/\/rating\/([\d]+)[\/]?$/', $request_uri[0], $matchedTripI
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tripID = $matchedTripID[1];
 
+    $rating = ORM::for_table('users_ratings')->create();
+    $rating->user_id = $_SESSION["user"]["id"];
+    $rating->trip_id = $tripID;
+    $rating->rating = $_POST["rating"];
+
     $trip = ORM::for_table('trips')->find_one($tripID);
     $trip->rating = ($trip->rating + $_POST["rating"]) / 2;
 
     try {
+        $rating->save();
         $trip->save();
 
         header('Content-Type: application/json');

@@ -36,7 +36,8 @@
                     <div class="main-buttons-container">
                         <a id="main_button" href="#mostpopulartrips" class="btn btn-default">Find tour</a>
                         <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin']) { ?>
-                            <button id="add_trip" class="btn btn-default">Add trip</button>
+                            <a id="add_trip" class="btn btn-default">Add trip</a>
+                            <button id="links_order_show" class="btn btn-default">Show links statistics</button>
                         <?php } ?>
                     </div>
                 </div>
@@ -117,6 +118,10 @@
         <div class="section-title">
             <h2>My Trips</h2>
         </div>
+        <?php if (count($myTrips) === 0) { ?>
+            <p>You have no trips booked yet :(</p>
+        <?php } ?>
+
         <div id="my_trips_container" class="row trips-widgets-container">
             <?php foreach($myTrips as $trip) {?>
             <div class="thumb" data-id="<?= $trip->id ?>">
@@ -138,6 +143,9 @@
 
 <section id="map_section">
     <div class="container">
+        <div class="section-title">
+            <h2>Trips Map</h2>
+        </div>
         <div id="map"></div>
     </div>
 </section>

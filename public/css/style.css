@@ -874,3 +874,17 @@ div.file_upload input {
 #map_add {
     height: 300px;
 }
+
+span.link-statistic {
+    font-size: .8em;
+    margin-top: -6px;
+    margin-left: 5px;
+    position: absolute;
+    border: 1px solid #b41111;
+    height: 14px;
+    width: 14px;
+    padding: 0 !important;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-table;
+}

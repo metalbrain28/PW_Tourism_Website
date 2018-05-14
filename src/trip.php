@@ -93,6 +93,11 @@ if ($isSingleTrip) {
                 ->where('trip_id', $tripID)
                 ->where('user_id', $_SESSION["user"]["id"])
                 ->find_one();
+
+            $userRating = ORM::for_table('users_ratings')
+                ->where('trip_id', $tripID)
+                ->where('user_id', $_SESSION["user"]["id"])
+                ->find_one();
         }
 
         header('Content-Type: application/json');
@@ -107,6 +112,7 @@ if ($isSingleTrip) {
                 "start_date"        => $tripData->start_date,
                 "end_date"          => $tripData->end_date,
                 "poster"            => $tripData->poster,
+                "userRating"        => $userRating ? true : false,
                 "booked"            => $userTripData ? true : false
             ]
         ]);

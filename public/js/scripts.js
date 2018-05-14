@@ -97,21 +97,21 @@ $(document).ready(function() {
         $(".backdrop").addClass("hidden");
     });
 
-    $("#test").click(function() {
-        $.ajax({
-            method: "POST",
-            url: "/chat",
-            data: {
-                chat_data: JSON.stringify({
-                    message: "potato"
-                })
-            },
-            success: function(data) {
-                console.log(data);
-            },
-            error: function(err) {
-                console.log(err);
-            }
-        });
+    $("#links_order_show").on("click", function() {
+        if ($(this).hasClass("on")) {
+            $(this).removeClass("on");
+            $(this).text("Show links statistics");
+
+            _.map(window.linksStatistics, function(count, link) {
+                $("#" + link).find("span").remove();
+            });
+        } else {
+            $(this).addClass("on");
+            $(this).text("Hide links statistics");
+            var index = 0;
+            _.map(window.linksStatistics, function(count, link) {
+                $("#" + link).append($("<span class='link-statistic'>" + (++index) + "</span>"));
+            });
+        }
     });
 });
