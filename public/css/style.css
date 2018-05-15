@@ -155,6 +155,18 @@ a.nav-link.btn-default {
     outline: 0;
 }
 
+.btn-small {
+    background: #4caf50 none repeat scroll 0 0;
+    border: 2px solid #4caf50;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    transition: all 0.3s ease 0s;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 /* Other sections - generals */
 .section-title h2 {
     color: #f1f1f1;
@@ -749,7 +761,7 @@ span.rate-trip {
 }
 
 input.file {
-    height: 20px;
+    height: 38px;
     border: 1px solid #BBB;
     border-right: 0;
     color: #888;
@@ -826,7 +838,7 @@ div.file_upload input {
     top: 5px;
     font-weight: 600;
     font-size: 18px;
-    right: 18%;
+    right: 22%;
     color: #999;
 }
 
@@ -887,4 +899,19 @@ span.link-statistic {
     border-radius: 50%;
     text-align: center;
     display: inline-table;
+}
+
+.map-tooltip-container {
+    color: #333;
+}
+
+.small-poster {
+    width: 150px;
+    max-height: 100px;
+    height: auto;
+    overflow: hidden;
+}
+
+.small-poster img {
+    width: 100%;
 }

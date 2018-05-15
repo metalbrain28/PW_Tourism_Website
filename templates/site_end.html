@@ -9,10 +9,6 @@
 <script src="/node_modules/underscore/underscore-min.js"></script>
 <script src="/library/daterangepicker.min.js"></script>
 
-<script src="node_modules/jquery-ui/ui/widget.js"></script>
-<script src="library/jquery.iframe-transport.js"></script>
-<script src="library/jquery.fileupload.js"></script>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa5bN2hPeMna7IPTvUu4STuLm0RNTOXqE&libraries=places&callback=initMap" async defer></script>
 
 <script src="/js/Register.js"></script>
@@ -41,8 +37,30 @@
                 id: v.id
             });
 
-            marker.addListener('click', function() {
+            marker.addListener('dblclick', function() {
                 window.trips.openShowTripModal(parseInt(marker.id, 10));
+            });
+
+            var infoContent = "<div class='map-tooltip-container'><h4>" + v.title + "</h4>" +
+                "<p>" + v.short_description + "</p>" +
+                "<div class='small-poster'><img src='" + v.poster + "' /></div>" +
+                "<br><button class='info-open-trip btn btn-small' data-id='" + v.id + "'>View trip</button>" +
+                "</div>";
+
+            var infowindow = new google.maps.InfoWindow({
+                content: infoContent
+            });
+
+            marker.addListener('click', function() {
+                infowindow.open(map, marker);
+            });
+
+            map.addListener('click', function() {
+                infowindow.close();
+            });
+
+            $(document).on("click", ".info-open-trip", function(e) {
+                window.trips.openShowTripModal($(e.target).data("id"));
             });
         });
 

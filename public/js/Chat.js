@@ -269,7 +269,7 @@ Chat.prototype = {
                 "message": JSON.stringify({"text": message})
             },
             success: _.bind(function(data) {
-                console.log(data);
+                // console.log(data);
             }, this),
             error: function(xhr) {
                 // TODO: render a "message not sent" next or smth

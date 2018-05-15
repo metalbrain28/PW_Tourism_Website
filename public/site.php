@@ -78,7 +78,7 @@ foreach ($linksStatistics as $linkData) {
 
 arsort($allLinks);
 $allLinks = json_encode($allLinks);
-echo "<script>window.linksStatistics = $allLinks;</script>";
+//echo "<script>window.linksStatistics = $allLinks;</script>";
 
 $allTripsData = [];
 foreach ($allTrips as $trip) {

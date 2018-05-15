@@ -28,7 +28,7 @@ Analytics.prototype = {
             if (this.linksList.length) {
                 $(document).off("mousemove");
                 this.mouseTrackInterval = null;
-                console.log(JSON.stringify({linksList: this.linksList}));
+                // console.log(JSON.stringify({linksList: this.linksList}));
                 this.trackData("links", JSON.stringify({linksList: this.linksList}));
             }
         }, this));
