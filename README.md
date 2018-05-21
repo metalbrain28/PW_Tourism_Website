@@ -4,15 +4,15 @@ This application requires nodejs (v > 8.0)
 
 After clone, run: 
 
-$ npm install
-$ cd fixtures
-$ php users_create.php
-$ php trips.php
-$ php chat.php
-$ php messages.php
-$ php users_trips.php
-$ php users_ratings.php
-$ php tracker.php
+$ npm install<br />
+$ cd fixtures<br />
+$ php users_create.php<br />
+$ php trips.php<br />
+$ php chat.php<br />
+$ php messages.php<br />
+$ php users_trips.php<br />
+$ php users_ratings.php<br />
+$ php tracker.php<br />
 
 Enunt:
 
