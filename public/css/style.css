@@ -288,9 +288,29 @@ section#tours, section#services, section#all_trips, section#contact, section#sta
     overflow-y: auto;
 }
 
+.hamburger {
+    float: right;
+    position: absolute;
+    right: 100px;
+    top: 30px;
+    font-size: 25px;
+    cursor: pointer;
+    display: none;
+}
+
+
 @media (max-width: 991px) {
     .thumb {
         width: 100%;
+    }
+
+    .navbar-collapse.collapse {
+        height: 0;
+        overflow: hidden;
+    }
+
+    .hamburger {
+        display: block;
     }
 }
 
@@ -915,3 +935,5 @@ span.link-statistic {
 .small-poster img {
     width: 100%;
 }
+
+

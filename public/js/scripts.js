@@ -114,4 +114,8 @@ $(document).ready(function() {
             });
         }
     });
+
+    $(".hamburger").on("click", function() {
+        $(".navbar-collapse").toggleClass("collapse");
+    });
 });
